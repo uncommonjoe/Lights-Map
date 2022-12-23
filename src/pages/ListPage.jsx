@@ -3,24 +3,19 @@ import {
 	StyleSheet,
 	View,
 	SafeAreaView,
-	ScrollView,
 	Text,
 	TouchableOpacity,
-	TouchableWithoutFeedback,
-	Keyboard,
 	ActivityIndicator,
 	FlatList,
 	ImageBackground,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import button from '../styles/button.style';
+import { useNavigation } from '@react-navigation/native';
 import page from '../styles/page.style';
-import LightsOne from '../img/icons/LightsOne';
 import { StatusBar } from 'expo-status-bar';
 
 export default ProductAddScreen = () => {
 	const [isLoading, setLoading] = useState(false);
-	const [selectedId, setSelectedId] = useState(null);
 	const [homeList, setHomeList] = useState([
 		{
 			id: 1,
@@ -35,23 +30,22 @@ export default ProductAddScreen = () => {
 			},
 			area: 'West End',
 			showTimes: {
-				dateStarts: '2022-11-24',
-				dateEnds: '2022-12-31',
-				weekDayTimeStart: '17:00',
-				weekDayTimeEnds: '21:00',
-				weekEndTimeStart: '17:00',
-				weekEndTimeEnds: '22:00',
+				dateStarts: '2022-11-24T00:00:00',
+				dateEnds: '2022-12-31T00:00:00',
+				weekDayTimeStart: '2022-11-24T17:00:00',
+				weekDayTimeEnds: '2022-11-24T21:00:00',
+				weekEndTimeStart: '2022-11-24T17:00:00',
+				weekEndTimeEnds: '2022-11-24T22:00:00',
 			},
 			features: ['music', 'pixels'],
 			numberOfLights: '10,00 - 20,000',
-			backgroundImage:
-				'https://staging.uncommonjoe.com/wp-content/uploads/2022/12/bethlehem-lights.jpg',
+			image: 'https://staging.uncommonjoe.com/wp-content/uploads/2022/12/bethlehem-lights.jpg',
 		},
 		{
 			id: 2,
 			name: 'Lights on Oasis',
 			description:
-				'Our Christmas lights are synchronized to music so when you drive up, tune your car radio to 88.3 FM. Our total show length is 17 minutes, however you can stay for one song or all of them!',
+				'We have 6 houses with approximately 50,000 lights synchronized to Christmas music.',
 			address: {
 				address1: '641 Oasis Drive',
 				city: 'Billings',
@@ -60,20 +54,23 @@ export default ProductAddScreen = () => {
 			},
 			area: 'Heights',
 			showTimes: {
-				dateStarts: '2022-11-26',
-				dateEnds: '2023-01-01',
-				weekDayTimeStart: '17:30',
-				weekDayTimeEnds: '21:30',
-				weekEndTimeStart: '17:30',
-				weekEndTimeEnds: '22:00',
+				dateStarts: '2022-11-26T00:00:00',
+				dateEnds: '2023-01-01T00:00:00',
+				weekDayTimeStart: '2022-11-24T17:30:00',
+				weekDayTimeEnds: '2022-11-24T21:30:00',
+				weekEndTimeStart: '2022-11-24T17:30:00',
+				weekEndTimeEnds: '2022-11-24T22:00:00',
 			},
 			features: ['music', 'pixels'],
 			numberOfLights: '50,000+',
-			backgroundImage:
-				'https://staging.uncommonjoe.com/wp-content/uploads/2022/12/lights-on-oasis.jpg',
+			image: 'https://staging.uncommonjoe.com/wp-content/uploads/2022/12/lights-on-oasis.jpg',
 		},
 	]);
-	const [date, setDate] = useState(new Date());
+	const navigation = useNavigation();
+
+	const selectLocation = (item) => {
+		navigation.navigate('Location', { location: item });
+	};
 
 	useEffect(() => {}, []);
 
@@ -87,13 +84,15 @@ export default ProductAddScreen = () => {
 				<FlatList
 					data={homeList}
 					keyExtractor={(item) => item.id}
-					extraData={selectedId}
 					renderItem={({ item, index }) => {
 						return (
-							<TouchableOpacity style={local.displayListing}>
+							<TouchableOpacity
+								style={local.displayListing}
+								onPress={() => selectLocation(item)}
+							>
 								<ImageBackground
 									source={{
-										uri: item.backgroundImage,
+										uri: item.image,
 									}}
 									resizeMode='cover'
 									style={local.displayListing.bgImage}

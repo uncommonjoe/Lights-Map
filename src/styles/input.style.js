@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const input = StyleSheet.create({
+export default input = StyleSheet.create({
 	title: {
 		fontSize: 16,
 		color: '#454C57',
@@ -22,5 +22,3 @@ const input = StyleSheet.create({
 		marginBottom: 20,
 	},
 });
-
-export default input;

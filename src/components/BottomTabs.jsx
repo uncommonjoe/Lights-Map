@@ -187,7 +187,6 @@ const local = StyleSheet.create({
 		flexDirection: 'row',
 		backgroundColor: '#292B2C',
 		alignItems: 'center',
-		justifyContent: '',
 	},
 	buttons: {
 		flex: 1,

@@ -1,13 +1,27 @@
 import { StyleSheet } from 'react-native';
-const button = StyleSheet.create({
+
+export default button = StyleSheet.create({
 	button: {
-		padding: 10,
+		minHeight: 60,
+		flex: 1,
 		textAlign: 'center',
 		alignItems: 'center',
 		justifyContent: 'center',
-		minHeight: 50,
-		borderRadius: 20,
+		borderRadius: 10,
+		container: {
+			flexDirection: 'row',
+		},
+		icon: {},
+		text: {
+			color: 'white',
+			fontWeight: 'bold',
+			fontSize: 16,
+		},
+	},
+	green: {
+		backgroundColor: '#3F8014',
+	},
+	red: {
+		backgroundColor: '#931D1D',
 	},
 });
-
-export default button;
