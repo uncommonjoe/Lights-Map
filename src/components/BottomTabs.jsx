@@ -25,8 +25,8 @@ import AddLocationPage from '../pages/AddLocationPage';
 
 const List = createNativeStackNavigator();
 const Map = createNativeStackNavigator();
-const Bookmarks = createBottomTabNavigator();
-const Settings = createBottomTabNavigator();
+const Bookmarks = createNativeStackNavigator();
+const Settings = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default BottomTab = () => {
@@ -39,10 +39,10 @@ export default BottomTab = () => {
 		>
 			<List.Screen
 				name='List'
+				component={ListPage}
 				options={{
 					header: () => null,
 				}}
-				component={ListPage}
 			/>
 			<List.Screen name='Location' component={LocationPage} />
 		</List.Navigator>
@@ -73,10 +73,10 @@ export default BottomTab = () => {
 		>
 			<Bookmarks.Screen
 				name='Bookmarks'
+				component={BookmarksPage}
 				options={{
 					header: () => null,
 				}}
-				component={BookmarksPage}
 			/>
 			<Bookmarks.Screen name='Location' component={LocationPage} />
 		</Bookmarks.Navigator>
