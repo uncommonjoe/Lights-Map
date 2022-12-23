@@ -13,6 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import page from '../styles/page.style';
 import { StatusBar } from 'expo-status-bar';
+import LikeBookmark from '../components/LikeBookmark';
 
 export default ProductAddScreen = () => {
 	const [isLoading, setLoading] = useState(false);
@@ -40,6 +41,7 @@ export default ProductAddScreen = () => {
 			features: ['music', 'pixels'],
 			numberOfLights: '10,00 - 20,000',
 			image: 'https://staging.uncommonjoe.com/wp-content/uploads/2022/12/bethlehem-lights.jpg',
+			likes: 256,
 		},
 		{
 			id: 2,
@@ -64,6 +66,7 @@ export default ProductAddScreen = () => {
 			features: ['music', 'pixels'],
 			numberOfLights: '50,000+',
 			image: 'https://staging.uncommonjoe.com/wp-content/uploads/2022/12/lights-on-oasis.jpg',
+			likes: 541,
 		},
 	]);
 	const navigation = useNavigation();
@@ -100,8 +103,14 @@ export default ProductAddScreen = () => {
 										borderRadius: 20,
 									}}
 								>
-									<View style={local.section1}></View>
+									{/*** Like and Bookmark Buttons ***/}
+									<View style={local.section1}>
+										<LikeBookmark
+											likesPayload={item.likes}
+										/>
+									</View>
 
+									{/*** Location name section ***/}
 									<LinearGradient
 										colors={[
 											'rgba(0,0,0,.0)',
@@ -155,6 +164,8 @@ export default ProductAddScreen = () => {
 const local = StyleSheet.create({
 	section1: {
 		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
 	},
 	section2: {
 		padding: 20,

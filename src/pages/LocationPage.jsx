@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
 import {
 	StyleSheet,
 	Text,
-	Image,
+	ImageBackground,
 	View,
 	SafeAreaView,
 	ScrollView,
@@ -12,36 +12,51 @@ import {
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMap, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { useNavigation } from '@react-navigation/native';
 import Moment from 'moment';
 import page from '../styles/page.style';
 import text from '../styles/text.style';
 import button from '../styles/button.style';
 
-export default function LocationPage(location) {
-	const [payload, setPayload] = useState(location.route.params.location);
+export default function LocationPage(payload) {
+	const [location, setLocation] = useState(payload.route.params.location);
+	const navigation = useNavigation();
 
 	return (
 		<SafeAreaView style={[page.whiteBg, { flex: 1 }]}>
 			<StatusBar style='dark' />
 
 			<ScrollView style={[page.whiteBg]}>
-				<Image style={local.image} source={{ uri: payload.image }} />
+				<ImageBackground
+					source={{
+						uri: location.image,
+					}}
+					resizeMode='cover'
+					style={local.image}
+				>
+					{/*** Like and Bookmark Buttons ***/}
+					<View style={local.image.container}>
+						<LikeBookmark />
+					</View>
+				</ImageBackground>
 
+				{/*** Location Title, area and description ***/}
 				<View style={page.container}>
-					<Text style={text.largeTitle}>{payload.name}</Text>
-					<Text style={text.body}>{payload.area}</Text>
+					<Text style={text.largeTitle}>{location.name}</Text>
+					<Text style={text.body}>{location.area}</Text>
 
-					<Text style={[text.body, { marginTop: 25 }]}>
-						{payload.description}
+					<Text style={[text.body, { marginTop: 15 }]}>
+						{location.description}
 					</Text>
 
-					<View style={[local.hoursBox, { marginTop: 25 }]}>
+					{/*** Showtimes box ***/}
+					<View style={[local.hoursBox, { marginTop: 15 }]}>
 						<Text style={text.smallTitle}>
-							{Moment(payload.showTimes.dateStarts).format(
+							{Moment(location.showTimes.dateStarts).format(
 								'ddd, MMM D'
 							) +
 								' - ' +
-								Moment(payload.showTimes.dateEnds).format(
+								Moment(location.showTimes.dateEnds).format(
 									'ddd, MMM D'
 								)}
 						</Text>
@@ -51,11 +66,11 @@ export default function LocationPage(location) {
 								<Text style={text.smallTitle}>Mon - Thu</Text>
 								<Text style={text.body}>
 									{Moment(
-										payload.showTimes.weekDayTimeStarts
+										location.showTimes.weekDayTimeStarts
 									).format('h:mm A') +
 										' - ' +
 										Moment(
-											payload.showTimes.weekDayTimeEnds
+											location.showTimes.weekDayTimeEnds
 										).format('h:mm A')}
 								</Text>
 							</View>
@@ -64,11 +79,11 @@ export default function LocationPage(location) {
 								<Text style={text.smallTitle}>Fri - Sat</Text>
 								<Text style={text.body}>
 									{Moment(
-										payload.showTimes.weekEndTimeStart
+										location.showTimes.weekEndTimeStart
 									).format('h:mm A') +
 										' - ' +
 										Moment(
-											payload.showTimes.weekEndTimeEnds
+											location.showTimes.weekEndTimeEnds
 										).format('h:mm A')}
 								</Text>
 							</View>
@@ -79,13 +94,13 @@ export default function LocationPage(location) {
 						Address
 					</Text>
 					<Text style={text.body}>
-						{payload.address.address1 +
+						{location.address.address1 +
 							', ' +
-							payload.address.city +
+							location.address.city +
 							' ' +
-							payload.address.state +
+							location.address.state +
 							', ' +
-							payload.address.zip}
+							location.address.zip}
 					</Text>
 				</View>
 
@@ -102,6 +117,9 @@ export default function LocationPage(location) {
 							button.green,
 							{ marginRight: 10 },
 						]}
+						onPress={() =>
+							navigation.navigate('Map', { location: location })
+						}
 					>
 						<View style={button.button.container}>
 							<FontAwesomeIcon
@@ -121,6 +139,9 @@ export default function LocationPage(location) {
 
 					<TouchableOpacity
 						style={[button.button, button.red, { marginLeft: 10 }]}
+						onPress={() =>
+							navigation.navigate('Map', { location: location })
+						}
 					>
 						<View style={button.button.container}>
 							<FontAwesomeIcon
@@ -132,7 +153,7 @@ export default function LocationPage(location) {
 							<Text
 								style={[button.button.text, { marginLeft: 10 }]}
 							>
-								View on Map
+								Directions
 							</Text>
 						</View>
 					</TouchableOpacity>
@@ -145,6 +166,11 @@ export default function LocationPage(location) {
 const local = StyleSheet.create({
 	image: {
 		height: 200,
+		container: {
+			flex: 1,
+			flexDirection: 'row',
+			justifyContent: 'flex-end',
+		},
 	},
 	hoursBox: {
 		padding: 15,

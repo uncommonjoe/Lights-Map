@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
-import { filter } from 'lodash';
 
 // Custom radio buttons
 // https://blog.logrocket.com/create-radio-buttons-react-native/
 
-const FeaturesIcons = ({ data }) => {
+export default FeaturesIcons = ({ data }) => {
 	const [userOption, setUserOption] = useState(null);
 
 	// get array of data and assign which icon to display based upon the value
@@ -49,5 +48,3 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 });
-
-export default RadioButton;
