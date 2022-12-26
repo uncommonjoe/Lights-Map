@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import LightsOne from '../img/icons/LightsOne';
 
 export default function MapPage() {
 	return (
@@ -8,7 +7,6 @@ export default function MapPage() {
 			<StatusBar style='auto' />
 
 			<Text>Map</Text>
-			<LightsOne />
 		</View>
 	);
 }

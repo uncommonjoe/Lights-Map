@@ -124,13 +124,6 @@ export default BottomTab = () => {
 						}
 					};
 
-					const onLongPress = () => {
-						navigation.emit({
-							type: 'tabLongPress',
-							target: route.key,
-						});
-					};
-
 					return (
 						<TouchableOpacity
 							accessibilityRole='button'
@@ -142,6 +135,7 @@ export default BottomTab = () => {
 							}
 							onPress={onPress}
 							style={local.buttons}
+							key={route.key}
 						>
 							<FontAwesomeIcon
 								icon={

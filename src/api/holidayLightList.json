@@ -1,0 +1,74 @@
+[
+	{
+		"id": 1,
+		"name": "Bethlehem Lights",
+		"description": "Our Christmas lights are synchronized to music so when you drive up, tune your car radio to 88.3 FM. Our total show length is 17 minutes, however you can stay for one song or all of them!",
+		"address": {
+			"address1": "2705 Beth Dr.",
+			"city": "Billings",
+			"state": "MT",
+			"zip": 59102
+		},
+		"area": "West End",
+		"showTimes": {
+			"dateStarts": "2022-11-24T00:00:00",
+			"dateEnds": "2022-12-31T00:00:00",
+			"weekDayTimeStart": "2022-11-24T17:00:00",
+			"weekDayTimeEnds": "2022-11-24T21:00:00",
+			"weekEndTimeStart": "2022-11-24T17:00:00",
+			"weekEndTimeEnds": "2022-11-24T22:00:00"
+		},
+		"features": ["music", "pixels"],
+		"numberOfLights": "10,00 - 20,000",
+		"image": "https://staging.uncommonjoe.com/wp-content/uploads/2022/12/bethlehem-lights.jpg",
+		"likes": 288
+	},
+	{
+		"id": 3,
+		"name": "Lights on Oasis",
+		"description": "We have 6 houses with approximately 50,000 lights synchronized to Christmas music.",
+		"address": {
+			"address1": "641 Oasis Drive",
+			"city": "Billings",
+			"state": "MT",
+			"zip": 59105
+		},
+		"area": "Heights",
+		"showTimes": {
+			"dateStarts": "2022-11-26T00:00:00",
+			"dateEnds": "2023-01-01T00:00:00",
+			"weekDayTimeStart": "2022-11-24T17:30:00",
+			"weekDayTimeEnds": "2022-11-24T21:30:00",
+			"weekEndTimeStart": "2022-11-24T17:30:00",
+			"weekEndTimeEnds": "2022-11-24T22:00:00"
+		},
+		"features": ["music", "pixels"],
+		"numberOfLights": "50,000+",
+		"image": "https://staging.uncommonjoe.com/wp-content/uploads/2022/12/lights-on-oasis.jpg",
+		"likes": 523
+	},
+	{
+		"id": 2,
+		"name": "Nightmare Before Christmas",
+		"description": "Located at 2437 Rimrock Road, come see Jack, Zero, Oogie Boogie, and all of your favorites in a Nightmare Before Christmas-themed holiday light display that includes 7 songs synced to music from the film. Tune to 95.9!",
+		"address": {
+			"address1": "2437 Rimrock Road",
+			"city": "Billings",
+			"state": "MT",
+			"zip": 59102
+		},
+		"area": "West End",
+		"showTimes": {
+			"dateStarts": "2022-12-01T00:00:00",
+			"dateEnds": "2022-12-25T00:00:00",
+			"weekDayTimeStart": "2022-12-24T17:00:00",
+			"weekDayTimeEnds": "2022-12-24T22:00:00",
+			"weekEndTimeStart": "2022-12-24T17:00:00",
+			"weekEndTimeEnds": "2022-12-24T22:00:00"
+		},
+		"features": ["music", "pixels"],
+		"numberOfLights": "50,000+",
+		"image": "https://staging.uncommonjoe.com/wp-content/uploads/2022/12/lights-on-oasis.jpg",
+		"likes": 890
+	}
+]

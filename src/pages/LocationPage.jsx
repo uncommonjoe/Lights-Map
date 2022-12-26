@@ -36,7 +36,7 @@ export default function LocationPage(payload) {
 				>
 					{/*** Like and Bookmark Buttons ***/}
 					<View style={local.image.container}>
-						<LikeBookmark />
+						<LikeBookmark likesPayload={location.likes} />
 					</View>
 				</ImageBackground>
 
