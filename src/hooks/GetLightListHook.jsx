@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
+import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
+import auth from '../config/firebase';
 
 export default function getLightList() {
 	const [lightList, setLightList] = useState({});
+	const db = getFirestore(auth);
 
 	// api call to get and return list
 
 	const apiGetList = async () => {
+		const listings = [];
+
 		try {
-			const response = await fetch('../api/holidayLightList.json');
-			const json = await response.json();
+			const q = query(collection(db, 'listings'));
+			const querySnapshot = await getDocs(q);
 
-			console.warn(response);
+			querySnapshot.forEach((doc) => {
+				listings.push(doc.data());
+			});
 
-			setLightList(json);
-		} catch (error) {
-			console.error(error);
+			setLightList(listings);
+			//console.warn(listings);
+
+			return listings;
+		} catch (e) {
+			console.error('Error getting listings: ', e);
 			throw error;
 		}
 	};

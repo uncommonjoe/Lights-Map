@@ -14,19 +14,26 @@ import { useNavigation } from '@react-navigation/native';
 import page from '../styles/page.style';
 import { StatusBar } from 'expo-status-bar';
 import LikeBookmark from '../components/LikeBookmark';
-import listings from '../api/holidayLightList.json';
+
+import getLightList from '../hooks/GetLightListHook';
 
 export default ProductAddScreen = () => {
 	const [isLoading, setLoading] = useState(true);
-	const [homeList, setHomeList] = useState(listings);
+	const [lightList, apiGetList] = getLightList();
+
 	const navigation = useNavigation();
 
 	const selectLocation = (item) => {
 		navigation.navigate('Location', { location: item });
 	};
 
-	useEffect(() => {
+	const asyncGetList = async () => {
+		await apiGetList();
 		setLoading(false);
+	};
+
+	useEffect(() => {
+		asyncGetList();
 	}, []);
 
 	return (
@@ -37,9 +44,9 @@ export default ProductAddScreen = () => {
 				<ActivityIndicator />
 			) : (
 				<FlatList
-					data={homeList}
+					data={lightList}
 					keyExtractor={(item) => item.id}
-					renderItem={({ item, index }) => {
+					renderItem={({ item }) => {
 						return (
 							<TouchableOpacity
 								style={local.displayListing}
