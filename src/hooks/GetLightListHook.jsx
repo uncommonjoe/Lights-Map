@@ -31,3 +31,36 @@ export default function getLightList() {
 
 	return [lightList, apiGetList];
 }
+
+// const apiGetRegions = async () => {
+//     const regions = [];
+
+//     try {
+//         const q = query(collection(db, 'local_region'));
+//         const querySnapshot = await getDocs(q);
+
+//         querySnapshot.forEach((doc) => {
+//             regions.push(doc.data());
+//         });
+
+//         setRegionList(regions);
+//         //console.warn('regions ', regions);
+
+//         return regions;
+//     } catch (e) {
+//         console.error('Error getting regions: ', e);
+//         throw error;
+//     }
+// };
+
+// const convertRegion = () => {
+//     console.warn(lightRawList);
+
+//     const readingsMatch = forEach(lightRawList, function (l) {
+//         if (l.area == 1) {
+//             return;
+//         }
+//     });
+
+//     return readingsMatch;
+// };
