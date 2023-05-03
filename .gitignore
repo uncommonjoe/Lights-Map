@@ -17,3 +17,4 @@ src/config/GoogleService-Info.plist
 
 # macOS
 .DS_Store
+yarn.lock

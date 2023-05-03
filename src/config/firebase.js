@@ -2,12 +2,6 @@
 import { initializeApp } from 'firebase/app';
 //import { getAnalytics } from 'firebase/analytics';
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
 import {
 	FIREBASE_API_KEY,
 	FIREBASE_AUTH_DOMAIN,
@@ -17,8 +11,16 @@ import {
 	FIREBASE_MEASUREMENT_ID,
 } from '@env';
 
-// Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+if (
+	!FIREBASE_API_KEY ||
+	!FIREBASE_AUTH_DOMAIN ||
+	!FIREBASE_PROJECT_ID ||
+	!FIREBASE_STORAGE_BUCKET ||
+	!FIREBASE_APP_ID ||
+	!FIREBASE_MEASUREMENT_ID
+) {
+	console.error('Missing firebase env variables');
+}
 
 const firebaseConfig = {
 	apiKey: FIREBASE_API_KEY,
