@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
 import auth from '../config/firebase';
 
@@ -8,6 +8,15 @@ export default function getLightList() {
 	const [lightList, setLightList] = useState({});
 	const [regionList, apiGetRegionList] = convertRegionHook();
 	const db = getFirestore(auth);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const fetchedList = await apiGetList();
+			setLightList(fetchedList);
+		};
+
+		fetchData();
+	}, []);
 
 	// api call to get and return list
 

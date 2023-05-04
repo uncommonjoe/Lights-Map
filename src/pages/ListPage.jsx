@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -17,15 +17,18 @@ import LikeBookmark from '../components/LikeBookmark';
 
 import getLightList from '../hooks/GetLightListHook';
 
-export default ProductAddScreen = () => {
+export default ListPage = () => {
 	const [isLoading, setLoading] = useState(true);
 	const [lightList, apiGetList] = getLightList();
 
 	const navigation = useNavigation();
 
-	const selectLocation = (item) => {
-		navigation.navigate('Location', { location: item });
-	};
+	const selectLocation = useCallback(
+		(item) => {
+			navigation.navigate('Location', { location: item });
+		},
+		[navigation]
+	);
 
 	const asyncGetList = async () => {
 		await apiGetList();

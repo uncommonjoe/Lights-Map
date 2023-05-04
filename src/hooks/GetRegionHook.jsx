@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
 import auth from '../config/firebase';
 
@@ -6,7 +6,14 @@ export default function getRegionHook() {
 	const [localRegion, setLocalRegion] = useState({});
 	const db = getFirestore(auth);
 
-	console.warn('getRegionHook');
+	useEffect(() => {
+		const fetchData = async () => {
+			const fetchedRegions = await apiGetRegionList();
+			setLocalRegion(fetchedRegions);
+		};
+
+		fetchData();
+	}, []);
 
 	// api call to get and return list of regions
 	const apiGetRegionList = async () => {
