@@ -34,6 +34,7 @@ export default ProductAddScreen = () => {
 
 	useEffect(() => {
 		asyncGetList();
+		console.log('------------------');
 	}, []);
 
 	return (
@@ -97,7 +98,7 @@ export default ProductAddScreen = () => {
 														.subtitle
 												}
 											>
-												{item.area}
+												{item.localRegionName}
 											</Text>
 										</View>
 									</LinearGradient>
