@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
 import auth from '../config/firebase';
 
+import convertRegionHook from './GetRegionHook';
+
 export default function getLightList() {
 	const [lightList, setLightList] = useState({});
+	const [regionList, apiGetRegionList] = convertRegionHook();
 	const db = getFirestore(auth);
 
 	// api call to get and return list
@@ -19,7 +22,7 @@ export default function getLightList() {
 		const listings = [];
 
 		try {
-			const localRegions = await fetchLocalRegions();
+			const localRegions = await apiGetRegionList();
 
 			const q = query(collection(db, 'listings'));
 			const querySnapshot = await getDocs(q);
@@ -41,26 +44,6 @@ export default function getLightList() {
 		} catch (e) {
 			console.error('Error getting listings: ', e);
 			throw e;
-		}
-	};
-
-	const fetchLocalRegions = async () => {
-		const regions = [];
-
-		try {
-			const q = query(collection(db, 'local_region'));
-			const querySnapshot = await getDocs(q);
-
-			querySnapshot.forEach((doc) => {
-				regions.push(doc.data());
-			});
-
-			setLightList(regions);
-
-			return regions;
-		} catch (e) {
-			console.error('Error getting regions: ', e);
-			throw error;
 		}
 	};
 
