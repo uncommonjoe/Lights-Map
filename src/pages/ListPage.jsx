@@ -9,18 +9,22 @@ import {
 } from 'react-native';
 import page from '../styles/page.style';
 import { StatusBar } from 'expo-status-bar';
+import { connect } from 'react-redux';
+import { setLightList } from '../redux/actions';
 
-import getLightList from '../hooks/GetLightListHook';
+import useGetLightList from '../hooks/GetLightListHook';
 import LocationComponent from '../components/LocationComponent';
 
-export default ListPage = () => {
+const ListPage = ({ lightList, setLightList }) => {
 	const [isLoading, setLoading] = useState(true);
-	const [lightList, apiGetList] = getLightList();
+	const [localLightList, getLightList] = useGetLightList();
 
-	const asyncGetList = async () => {
-		await apiGetList();
+	async function asyncGetList() {
+		setLoading(true);
+		const fetchedList = await getLightList();
+		setLightList(fetchedList);
 		setLoading(false);
-	};
+	}
 
 	const listFilterSort = (list) => {
 		// sorts with most likes at top
@@ -55,6 +59,16 @@ export default ListPage = () => {
 			)}
 		</SafeAreaView>
 	);
+};
+
+const mapStateToProps = (state) => {
+	return {
+		lightList: state.lightList,
+	};
+};
+
+const mapDispatchToProps = {
+	setLightList,
 };
 
 const local = StyleSheet.create({
@@ -94,3 +108,5 @@ const local = StyleSheet.create({
 		},
 	},
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListPage);

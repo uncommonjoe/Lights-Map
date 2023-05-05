@@ -5,18 +5,14 @@ import BottomTab from './src/components/BottomTabs';
 import './src/config/firebase';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import configureStore from './src/redux/store/configureStore';
+import store from './src/redux/store';
 
 export default function App() {
-	const store = configureStore();
-
 	return (
 		<Provider store={store}>
-			{/* <PersistGate persistor={persistor} loading={null}> */}
 			<NavigationContainer style={{ flex: 1 }}>
 				<BottomTab />
 			</NavigationContainer>
-			{/* </PersistGate> */}
 		</Provider>
 	);
 }

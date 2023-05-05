@@ -5,8 +5,8 @@ import auth from '../config/firebase';
 import getRegionHook from './GetRegionHook';
 import getFeaturesHook from './GetFeaturesHook';
 
-export default function getLightList() {
-	const [lightList, setLightList] = useState({});
+export default function useGetLightList() {
+	const [lightList, setLightList] = useState([]);
 	const [regionList, apiGetRegionList] = getRegionHook();
 	const [featureList, apiGetFeatureList] = getFeaturesHook();
 	const db = getFirestore(auth);
