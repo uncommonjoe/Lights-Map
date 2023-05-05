@@ -8,7 +8,7 @@ import {
 	ActivityIndicator,
 } from 'react-native';
 import page from '../styles/page.style';
-import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { iconMap } from '../modules/IconMapModule';
@@ -28,6 +28,13 @@ const MapPage = ({ lightList }) => {
 		}
 	};
 
+	const handleMapPress = (event) => {
+		// Check if the map was clicked, and not clicked on a marker
+		if (event.nativeEvent && !event.nativeEvent.selectedMarker) {
+			setSelectedMarker(null);
+		}
+	};
+
 	return (
 		<SafeAreaView style={[page.container, local.container]}>
 			<StatusBar style='auto' />
@@ -43,6 +50,7 @@ const MapPage = ({ lightList }) => {
 						latitudeDelta: 0.2,
 						longitudeDelta: 0.2,
 					}}
+					onPress={handleMapPress}
 				>
 					{lightList.map((marker, index) => (
 						<Marker
