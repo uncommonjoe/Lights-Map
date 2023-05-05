@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
 import auth from '../config/firebase';
 
-import convertRegionHook from './GetRegionHook';
+import getRegionHook from './GetRegionHook';
+import getFeaturesHook from './GetFeaturesHook';
 
 export default function getLightList() {
 	const [lightList, setLightList] = useState({});
-	const [regionList, apiGetRegionList] = convertRegionHook();
+	const [regionList, apiGetRegionList] = getRegionHook();
+	const [featureList, apiGetFeatureList] = getFeaturesHook();
 	const db = getFirestore(auth);
 
 	useEffect(() => {
@@ -20,11 +22,30 @@ export default function getLightList() {
 
 	// api call to get and return list
 
-	const findAssociatedLocalRegion = (area, localRegions) => {
-		console.log('area', area);
-		console.log('localRegions', localRegions);
-		const localRegion = localRegions.find((region) => region.id === area);
+	const findAssociatedLocalRegion = (listingDataArea, dbRegions) => {
+		console.log('listingDataArea', listingDataArea);
+		console.log('dbRegions', dbRegions);
+
+		const localRegion = dbRegions.find(
+			(region) => region.id === listingDataArea
+		);
 		return localRegion ? localRegion.name : null;
+	};
+
+	const convertFeatureIcon = (listingDataFeatures, dbFeatures) => {
+		console.log('listingDataFeatures', listingDataFeatures);
+		console.log('dbFeatures', dbFeatures);
+
+		const updatedListFeatures = listingDataFeatures.map((featureId) => {
+			const databaseFeature = dbFeatures.find(
+				(dbFeature) => dbFeature.id === featureId
+			);
+			return {
+				iconName: databaseFeature ? databaseFeature.iconName : '',
+			};
+		});
+
+		return updatedListFeatures;
 	};
 
 	const apiGetList = async () => {
@@ -32,6 +53,7 @@ export default function getLightList() {
 
 		try {
 			const localRegions = await apiGetRegionList();
+			const featureList = await apiGetFeatureList();
 
 			const q = query(collection(db, 'listings'));
 			const querySnapshot = await getDocs(q);
@@ -42,7 +64,15 @@ export default function getLightList() {
 					listingData.area,
 					localRegions
 				);
-				listings.push({ ...listingData, localRegionName });
+				const featureIcons = convertFeatureIcon(
+					listingData.features,
+					featureList
+				);
+				listings.push({
+					...listingData,
+					localRegionName,
+					featureIcons,
+				});
 			});
 
 			console.log('-- listings --');

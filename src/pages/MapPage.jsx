@@ -12,9 +12,11 @@ import MapView, { Marker } from 'react-native-maps';
 import getLightList from '../hooks/GetLightListHook';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
+	faPallet,
 	faMusic,
 	faTree,
 	faCar,
+	faSleigh,
 	faPersonWalking,
 } from '@fortawesome/free-solid-svg-icons';
 

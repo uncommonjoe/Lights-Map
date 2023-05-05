@@ -9,6 +9,15 @@ import {
 	FlatList,
 	ImageBackground,
 } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {
+	faPalette,
+	faMusic,
+	faTree,
+	faCar,
+	faSleigh,
+	faPersonWalking,
+} from '@fortawesome/free-solid-svg-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import page from '../styles/page.style';
@@ -22,6 +31,15 @@ export default ListPage = () => {
 	const [lightList, apiGetList] = getLightList();
 
 	const navigation = useNavigation();
+
+	const iconMap = {
+		palette: faPalette,
+		music: faMusic,
+		tree: faTree,
+		car: faCar,
+		sleigh: faSleigh,
+		personWalking: faPersonWalking,
+	};
 
 	const selectLocation = useCallback(
 		(item) => {
@@ -87,13 +105,61 @@ export default ListPage = () => {
 												local.displayListing.contents
 											}
 										>
-											<Text
-												style={
-													local.displayListing.title
-												}
+											<View
+												style={{
+													flexDirection: 'row',
+													alignItems: 'center',
+												}}
 											>
-												{item.name}
-											</Text>
+												<Text
+													style={
+														local.displayListing
+															.title
+													}
+												>
+													{item.name}
+												</Text>
+
+												{item.featureIcons.map(
+													(icon, index) => {
+														const iconName =
+															icon.iconName;
+														const mappedIcon =
+															iconMap[iconName];
+
+														if (!mappedIcon) {
+															console.warn(
+																`Invalid icon name: ${iconName}`
+															);
+															return null;
+														}
+
+														return (
+															<View
+																key={index}
+																style={{
+																	marginRight: 5,
+																}}
+															>
+																<FontAwesomeIcon
+																	icon={
+																		mappedIcon
+																	}
+																	color={
+																		'white'
+																	}
+																	size={14}
+																	style={
+																		local
+																			.displayListing
+																			.icons
+																	}
+																/>
+															</View>
+														);
+													}
+												)}
+											</View>
 
 											<Text
 												style={
@@ -144,6 +210,9 @@ const local = StyleSheet.create({
 			flexDirection: 'row',
 			justifyContent: 'space-between',
 			width: '100%',
+		},
+		icons: {
+			marginLeft: 5,
 		},
 		title: {
 			color: 'white',
