@@ -13,7 +13,8 @@ import { iconMap } from '../modules/IconMapModule';
 import LikeBookmark from '../components/LikeBookmark';
 
 export default function LocationComponent(payload) {
-	const [location, setLoacation] = useState(payload.location);
+	const [location, setLocation] = useState(payload.location);
+
 	const navigation = useNavigation();
 
 	const selectLocation = useCallback(
@@ -116,7 +117,7 @@ const local = StyleSheet.create({
 	},
 	displayListing: {
 		marginBottom: 15,
-		height: 200,
+		height: 175,
 		bgImage: {
 			flex: 1,
 		},

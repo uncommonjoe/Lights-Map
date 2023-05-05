@@ -8,14 +8,25 @@ import {
 	ActivityIndicator,
 } from 'react-native';
 import page from '../styles/page.style';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps';
 import { connect } from 'react-redux';
-import { iconMap } from '../modules/IconMapModule';
-
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { iconMap } from '../modules/IconMapModule';
+import LocationComponent from '../components/LocationComponent';
 
 const MapPage = ({ lightList }) => {
 	const [isLoading, setIsLoading] = useState(false);
+	const [selectedMarker, setSelectedMarker] = useState(null);
+
+	const handleMarkerPress = async (marker) => {
+		// Clears out old selectedMarker and sets the new marker that was pressed
+		await setSelectedMarker(null);
+		setSelectedMarker(marker);
+
+		if (selectedMarker && selectedMarker.id === marker.id) {
+			setSelectedMarker(null);
+		}
+	};
 
 	return (
 		<SafeAreaView style={[page.container, local.container]}>
@@ -41,8 +52,8 @@ const MapPage = ({ lightList }) => {
 								longitude: marker.geo_location.longitude,
 							}}
 							title={marker.name}
-							description={marker.localRegionName}
 							anchor={[0, 0]}
+							onPress={() => handleMarkerPress(marker)}
 						>
 							<View
 								style={[
@@ -64,6 +75,14 @@ const MapPage = ({ lightList }) => {
 					))}
 				</MapView>
 			)}
+
+			{selectedMarker && (
+				<View style={local.callout}>
+					<LocationComponent location={selectedMarker} />
+
+					{/* {renderLocationPreview(selectedMarker)} */}
+				</View>
+			)}
 		</SafeAreaView>
 	);
 };
@@ -77,6 +96,7 @@ const mapStateToProps = (state) => {
 const local = StyleSheet.create({
 	container: {
 		paddingHorizontal: 0,
+		flex: 1,
 	},
 	map: {
 		width: '100%',
@@ -87,13 +107,13 @@ const local = StyleSheet.create({
 		borderRadius: 20,
 		borderColor: '#FFFFFF',
 		borderWidth: 2,
-		icon: {},
-		red: {
-			backgroundColor: 'red',
-		},
-		green: {
-			backgroundColor: 'green',
-		},
+	},
+	callout: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		padding: 16,
 	},
 });
 
