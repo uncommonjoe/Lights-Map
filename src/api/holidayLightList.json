@@ -13,9 +13,9 @@
 		"showTimes": {
 			"dateStarts": "2022-11-24T00:00:00",
 			"dateEnds": "2022-12-31T00:00:00",
-			"weekDayTimeStart": "2022-11-24T17:00:00",
+			"weekDayTimeStarts": "2022-11-24T17:00:00",
 			"weekDayTimeEnds": "2022-11-24T21:00:00",
-			"weekEndTimeStart": "2022-11-24T17:00:00",
+			"weekEndTimeStarts": "2022-11-24T17:00:00",
 			"weekEndTimeEnds": "2022-11-24T22:00:00"
 		},
 		"features": ["music", "pixels"],
@@ -37,9 +37,9 @@
 		"showTimes": {
 			"dateStarts": "2022-11-26T00:00:00",
 			"dateEnds": "2023-01-01T00:00:00",
-			"weekDayTimeStart": "2022-11-24T17:30:00",
+			"weekDayTimeStarts": "2022-11-24T17:30:00",
 			"weekDayTimeEnds": "2022-11-24T21:30:00",
-			"weekEndTimeStart": "2022-11-24T17:30:00",
+			"weekEndTimeStarts": "2022-11-24T17:30:00",
 			"weekEndTimeEnds": "2022-11-24T22:00:00"
 		},
 		"features": ["music", "pixels"],
@@ -61,9 +61,9 @@
 		"showTimes": {
 			"dateStarts": "2022-12-01T00:00:00",
 			"dateEnds": "2022-12-25T00:00:00",
-			"weekDayTimeStart": "2022-12-24T17:00:00",
+			"weekDayTimeStarts": "2022-12-24T17:00:00",
 			"weekDayTimeEnds": "2022-12-24T22:00:00",
-			"weekEndTimeStart": "2022-12-24T17:00:00",
+			"weekEndTimeStarts": "2022-12-24T17:00:00",
 			"weekEndTimeEnds": "2022-12-24T22:00:00"
 		},
 		"features": ["music", "pixels"],

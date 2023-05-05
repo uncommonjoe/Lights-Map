@@ -50,7 +50,7 @@ export default function LocationPage(payload) {
 				{/*** Location Title, area and description ***/}
 				<View style={page.container}>
 					<Text style={text.largeTitle}>{location.name}</Text>
-					<Text style={text.body}>{location.area}</Text>
+					<Text style={text.body}>{location.localRegionName}</Text>
 
 					<Text style={[text.body, { marginTop: 15 }]}>
 						{location.description}
@@ -115,7 +115,7 @@ export default function LocationPage(payload) {
 					style={{
 						paddingHorizontal: 15,
 						flexDirection: 'row',
-						marginBottom: 0,
+						marginBottom: 20,
 					}}
 				>
 					<TouchableOpacity
