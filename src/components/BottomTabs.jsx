@@ -38,7 +38,7 @@ export default BottomTab = () => {
 			initialRouteName='ListPage'
 		>
 			<List.Screen
-				name='List Page'
+				name='Billings, MT'
 				component={ListPage}
 				options={{
 					header: () => null,
@@ -72,7 +72,7 @@ export default BottomTab = () => {
 			})}
 		>
 			<Bookmarks.Screen
-				name='Bookmarks'
+				name='Bookmarks Page'
 				component={BookmarksPage}
 				options={{
 					header: () => null,
@@ -89,7 +89,7 @@ export default BottomTab = () => {
 			})}
 		>
 			<Settings.Screen
-				name='Settings'
+				name='Settings Page'
 				options={{
 					header: () => null,
 				}}

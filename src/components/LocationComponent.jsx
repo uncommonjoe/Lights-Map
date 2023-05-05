@@ -7,30 +7,14 @@ import {
 	ImageBackground,
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-	faPalette,
-	faMusic,
-	faTree,
-	faCar,
-	faSleigh,
-	faPersonWalking,
-} from '@fortawesome/free-solid-svg-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { iconMap } from '../modules/IconMapModule';
 import LikeBookmark from '../components/LikeBookmark';
 
 export default function LocationComponent(payload) {
 	const [location, setLoacation] = useState(payload.location);
 	const navigation = useNavigation();
-
-	const iconMap = {
-		palette: faPalette,
-		music: faMusic,
-		tree: faTree,
-		car: faCar,
-		sleigh: faSleigh,
-		personWalking: faPersonWalking,
-	};
 
 	const selectLocation = useCallback(
 		(item) => {

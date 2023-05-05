@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
 	StyleSheet,
@@ -10,21 +10,13 @@ import {
 import page from '../styles/page.style';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
+import { iconMap } from '../modules/IconMapModule';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-	faPallet,
-	faMusic,
-	faTree,
-	faCar,
-	faSleigh,
-	faPersonWalking,
-} from '@fortawesome/free-solid-svg-icons';
 
 const MapPage = ({ lightList }) => {
 	const [isLoading, setIsLoading] = useState(false);
 
-	console.log('MapPage lightList', lightList);
 	return (
 		<SafeAreaView style={[page.container, local.container]}>
 			<StatusBar style='auto' />
@@ -52,12 +44,20 @@ const MapPage = ({ lightList }) => {
 							description={marker.localRegionName}
 							anchor={[0, 0]}
 						>
-							<View style={[local.marker, local.marker.green]}>
+							<View
+								style={[
+									local.marker,
+									{
+										backgroundColor:
+											marker.iconFeatures.color,
+									},
+								]}
+							>
 								<FontAwesomeIcon
-									icon={faTree}
+									icon={iconMap[marker.iconFeatures.iconName]}
 									color={'white'}
-									size={18}
-									style={local.marker.icon}
+									size={14}
+									style={[local.marker.icon]}
 								/>
 							</View>
 						</Marker>
@@ -85,6 +85,8 @@ const local = StyleSheet.create({
 	marker: {
 		padding: 8,
 		borderRadius: 20,
+		borderColor: '#FFFFFF',
+		borderWidth: 2,
 		icon: {},
 		red: {
 			backgroundColor: 'red',
