@@ -22,6 +22,13 @@ export default function LocationPage(payload) {
 	const [location, setLocation] = useState(payload.route.params.location);
 	const navigation = useNavigation();
 
+	const convertTimestampToMoment = (timestamp) => {
+		console.log(timestamp);
+		const milliseconds =
+			timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
+		return Moment(milliseconds);
+	};
+
 	return (
 		<SafeAreaView style={[page.whiteBg, { flex: 1 }]}>
 			<StatusBar style='dark' />
@@ -52,24 +59,24 @@ export default function LocationPage(payload) {
 					{/*** Showtimes box ***/}
 					<View style={[local.hoursBox, { marginTop: 15 }]}>
 						<Text style={text.smallTitle}>
-							{Moment(location.showTimes.dateStarts).format(
-								'ddd, MMM D'
-							) +
+							{convertTimestampToMoment(
+								location.showTimes.dateStarts
+							).format('ddd, MMM D') +
 								' - ' +
-								Moment(location.showTimes.dateEnds).format(
-									'ddd, MMM D'
-								)}
+								convertTimestampToMoment(
+									location.showTimes.dateEnds
+								).format('ddd, MMM D')}
 						</Text>
 
 						<View style={local.hoursBox.hours}>
 							<View>
 								<Text style={text.smallTitle}>Mon - Thu</Text>
 								<Text style={text.body}>
-									{Moment(
+									{convertTimestampToMoment(
 										location.showTimes.weekDayTimeStarts
 									).format('h:mm A') +
 										' - ' +
-										Moment(
+										convertTimestampToMoment(
 											location.showTimes.weekDayTimeEnds
 										).format('h:mm A')}
 								</Text>
@@ -78,11 +85,11 @@ export default function LocationPage(payload) {
 							<View>
 								<Text style={text.smallTitle}>Fri - Sat</Text>
 								<Text style={text.body}>
-									{Moment(
-										location.showTimes.weekEndTimeStart
+									{convertTimestampToMoment(
+										location.showTimes.weekEndTimeStarts
 									).format('h:mm A') +
 										' - ' +
-										Moment(
+										convertTimestampToMoment(
 											location.showTimes.weekEndTimeEnds
 										).format('h:mm A')}
 								</Text>
