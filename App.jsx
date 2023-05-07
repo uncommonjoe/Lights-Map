@@ -5,42 +5,42 @@ import LoadingScreen from './src/components/LoadingScreen';
 import BottomTab from './src/components/BottomTabs';
 import apiGetFeatures from './src/functions/GetFeatures';
 import apiGetDistricts from './src/functions/GetDistricts';
+import apiGetLocations from './src/functions/GetLocations';
 import './src/config/firebase';
 import { Provider } from 'react-redux';
+import { setDistricts, setFeatures, setLocations } from './src/redux/actions';
 import store from './src/redux/store';
 
 const App = () => {
 	const [isLoading, setLoading] = useState(true);
 	const [statusMessage, setStatusMessage] = useState('Initializing');
-	const [featuresList, setFeaturesList] = useState([]);
-	const [districtsList, setDistrictsList] = useState([]);
 
 	const apiCalls = async () => {
-		// Get list of features and store to redux
+		// Get list of features
 		setStatusMessage('Getting light features');
 		const features = await apiGetFeatures();
-		setFeaturesList(features);
+		store.dispatch(setFeatures(features));
 
-		// Get list of districts and store to redux
+		// Get list of districts
 		setStatusMessage('Looking through areas of town');
 		const districts = await apiGetDistricts();
-		setDistrictsList(districts);
+		store.dispatch(setDistricts(districts));
 
-		// // Get list of locations and store to redux
+		// Get list of locations
 		setStatusMessage('Finding amazing lights');
-		// const locations = await GetLocations();
-		// setLocationsList(locations);
+		const locations = await apiGetLocations(districts, features);
+		store.dispatch(setLocations(locations));
+	};
 
-		console.log('*************************');
-		console.log('A ', featuresList);
-		console.log('B ', districtsList);
+	const fetchDataAndStore = async () => {
+		await apiCalls();
 
 		// Then set loading to false
 		setLoading(false);
 	};
 
 	useEffect(() => {
-		apiCalls();
+		fetchDataAndStore();
 	}, []);
 
 	return (

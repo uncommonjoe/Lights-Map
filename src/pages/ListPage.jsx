@@ -1,74 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import {
-	StyleSheet,
-	View,
-	SafeAreaView,
-	Text,
-	ActivityIndicator,
-	FlatList,
-} from 'react-native';
+import { StyleSheet, View, SafeAreaView, Text, FlatList } from 'react-native';
 import page from '../styles/page.style';
+import LocationComponent from '../components/LocationComponent';
 import { StatusBar } from 'expo-status-bar';
 import { connect } from 'react-redux';
-import { setLightList } from '../redux/actions';
+import { setLocations } from '../redux/actions';
 
-import useGetLightList from '../functions/GetLightList';
-import LocationComponent from '../components/LocationComponent';
-
-const ListPage = ({ lightList, setLightList }) => {
-	const [isLoading, setLoading] = useState(true);
-	const [localLightList, getLightList] = useGetLightList();
-
-	async function asyncGetList() {
-		setLoading(true);
-		const fetchedList = await getLightList();
-		setLightList(fetchedList);
-		setLoading(false);
-	}
-
+const ListPage = ({ locationsList }) => {
 	const listFilterSort = (list) => {
 		// sorts with most likes at top
 		return list.sort((a, b) => b.likes - a.likes);
 	};
 
-	useEffect(() => {
-		asyncGetList();
-	}, []);
-
 	return (
 		<SafeAreaView style={page.container}>
 			<StatusBar />
 
-			{isLoading ? (
-				<ActivityIndicator />
-			) : (
-				<FlatList
-					data={listFilterSort(lightList)}
-					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => {
-						return <LocationComponent location={item} />;
-					}}
-					ListEmptyComponent={() => (
-						<View style={local.noResultsWrap}>
-							<Text style={local.noResultsText}>
-								No results found.
-							</Text>
-						</View>
-					)}
-				/>
-			)}
+			<FlatList
+				data={listFilterSort(locationsList)}
+				keyExtractor={(item) => item.id}
+				renderItem={({ item }) => {
+					return <LocationComponent location={item} />;
+				}}
+				ListEmptyComponent={() => (
+					<View style={local.noResultsWrap}>
+						<Text style={local.noResultsText}>
+							No results found.
+						</Text>
+					</View>
+				)}
+			/>
 		</SafeAreaView>
 	);
 };
 
 const mapStateToProps = (state) => {
 	return {
-		lightList: state.lightList,
+		locationsList: state.locationsList,
 	};
 };
 
 const mapDispatchToProps = {
-	setLightList,
+	setLocations,
 };
 
 const local = StyleSheet.create({

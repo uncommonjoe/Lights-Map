@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { iconMap } from '../modules/IconMapModule';
 import LocationComponent from '../components/LocationComponent';
 
-const MapPage = ({ lightList }) => {
+const MapPage = ({ locationsList }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -52,7 +52,7 @@ const MapPage = ({ lightList }) => {
 					}}
 					onPress={handleMapPress}
 				>
-					{lightList.map((marker, index) => (
+					{locationsList.map((marker, index) => (
 						<Marker
 							key={index}
 							coordinate={{
@@ -87,8 +87,6 @@ const MapPage = ({ lightList }) => {
 			{selectedMarker && (
 				<View style={local.callout}>
 					<LocationComponent location={selectedMarker} />
-
-					{/* {renderLocationPreview(selectedMarker)} */}
 				</View>
 			)}
 		</SafeAreaView>
@@ -97,7 +95,7 @@ const MapPage = ({ lightList }) => {
 
 const mapStateToProps = (state) => {
 	return {
-		lightList: state.lightList,
+		locationsList: state.locationsList,
 	};
 };
 

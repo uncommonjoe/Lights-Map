@@ -1,26 +1,31 @@
-import {
-	SET_LIGHT_LIST,
-	SET_FEATURES_LIST,
-	SET_DISTRICTS_LIST,
-} from './actions';
+import { SET_DISTRICTS, SET_FEATURES, SET_LOCATIONS } from './actions';
 
 const initialState = {
-	lightList: [],
-	featureList: [],
 	districtsList: [],
+	featuresList: [],
+	locationsList: [],
 };
 
-const rootReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case SET_LIGHT_LIST:
-			return { ...state, lightList: action.payload };
-		case SET_FEATURES_LIST:
-			return { ...state, featureList: action.payload };
-		case SET_DISTRICTS_LIST:
-			return { ...state, districtsList: action.payload };
+		case SET_DISTRICTS:
+			return {
+				...state,
+				districtsList: action.payload,
+			};
+		case SET_FEATURES:
+			return {
+				...state,
+				featuresList: action.payload,
+			};
+		case SET_LOCATIONS:
+			return {
+				...state,
+				locationsList: action.payload,
+			};
 		default:
 			return state;
 	}
 };
 
-export default rootReducer;
+export default appReducer;
