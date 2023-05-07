@@ -23,7 +23,6 @@ import button from '../styles/button.style';
 
 const AddLocationPage = () => {
 	const [locationName, setLocationName] = useState('');
-	const [address, setAddress] = useState('');
 	const [street, setStreet] = useState('');
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('MT');
@@ -88,8 +87,6 @@ const AddLocationPage = () => {
 
 	return (
 		<SafeAreaView style={page.container}>
-			<StatusBar style='auto' />
-
 			<ScrollView>
 				{/* Location Name */}
 				<View style={form.container}>
@@ -162,14 +159,14 @@ const AddLocationPage = () => {
 						}}
 					>
 						<TouchableOpacity
-							style={[button.formButton]}
+							style={[button.formButton, { marginRight: 10 }]}
 							onPress={handlePhotoSelection}
 						>
 							<Text>Select Photo</Text>
 						</TouchableOpacity>
 
 						<TouchableOpacity
-							style={[button.formButton]}
+							style={[button.formButton, { marginLeft: 10 }]}
 							onPress={handlePhotoCapture}
 						>
 							<Text>Take Photo</Text>
