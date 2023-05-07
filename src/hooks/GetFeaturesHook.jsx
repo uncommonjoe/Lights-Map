@@ -22,7 +22,6 @@ const useGetFeatures = () => {
 			});
 
 			setFeatureList(features);
-			console.log(features);
 		} catch (error) {
 			console.error('Error getting features: ', error);
 			throw error;

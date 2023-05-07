@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import LoadingScreen from './src/components/LoadingScreen';
 import BottomTab from './src/components/BottomTabs';
 import useGetFeatures from './src/hooks/GetFeaturesHook';
+import useGetRegions from './src/hooks/GetRegionHook';
 import './src/config/firebase';
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
@@ -15,6 +16,7 @@ const App = () => {
 	const [regionsList, setRegionsList] = useState({});
 	const [locationsList, setLocationsList] = useState({});
 	const [featureList, fetchFeatures] = useGetFeatures();
+	const [regionList, fetchRegions] = useGetRegions();
 
 	const apiCalls = async () => {
 		// Get list of features and store to redux
@@ -24,8 +26,8 @@ const App = () => {
 
 		// Get list of regions and store to redux
 		setStatusMessage('Looking through areas of town');
-		// const regions = await GetRegions();
-		// setRegionsList(regions);
+		const regions = await fetchRegions();
+		setRegionsList(regions);
 
 		// // Get list of locations and store to redux
 		setStatusMessage('Finding amazing lights');
