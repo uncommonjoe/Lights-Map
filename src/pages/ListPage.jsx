@@ -12,7 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 import { connect } from 'react-redux';
 import { setLightList } from '../redux/actions';
 
-import useGetLightList from '../hooks/GetLightListHook';
+import useGetLightList from '../functions/GetLightList';
 import LocationComponent from '../components/LocationComponent';
 
 const ListPage = ({ lightList, setLightList }) => {

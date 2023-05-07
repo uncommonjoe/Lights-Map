@@ -1,9 +1,13 @@
-import { SET_LIGHT_LIST, SET_FEATURES_LIST, SET_REGIONS_LIST } from './actions';
+import {
+	SET_LIGHT_LIST,
+	SET_FEATURES_LIST,
+	SET_DISTRICTS_LIST,
+} from './actions';
 
 const initialState = {
 	lightList: [],
 	featureList: [],
-	regionList: [],
+	districtsList: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -12,8 +16,8 @@ const rootReducer = (state = initialState, action) => {
 			return { ...state, lightList: action.payload };
 		case SET_FEATURES_LIST:
 			return { ...state, featureList: action.payload };
-		case SET_REGIONS_LIST:
-			return { ...state, regionList: action.payload };
+		case SET_DISTRICTS_LIST:
+			return { ...state, districtsList: action.payload };
 		default:
 			return state;
 	}

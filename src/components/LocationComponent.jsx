@@ -94,7 +94,7 @@ export default function LocationComponent(payload) {
 						</View>
 
 						<Text style={local.displayListing.subtitle}>
-							{location.localRegionName}
+							{location.localDistrictName}
 						</Text>
 					</View>
 				</LinearGradient>

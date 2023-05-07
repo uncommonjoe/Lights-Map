@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
 import auth from '../config/firebase';
 
-import useRegionHook from './GetRegionHook';
-import useGetFeatures from './GetFeaturesHook';
+import useRegionHook from './GetDistricts';
+import useGetFeatures from './GetFeatures';
 
 export default function useGetLightList() {
 	const [lightList, setLightList] = useState([]);
@@ -21,7 +21,7 @@ export default function useGetLightList() {
 	}, []);
 
 	// api call to get and return list
-	const findAssociatedLocalRegion = (listingDataArea, dbRegions) => {
+	const findAssociatedLocalDistrict = (listingDataArea, dbRegions) => {
 		// console.log('listingDataArea', listingDataArea);
 		// console.log('dbRegions', dbRegions);
 
@@ -91,7 +91,7 @@ export default function useGetLightList() {
 		const listings = [];
 
 		try {
-			const localRegions = await apiGetRegionList();
+			const localDistricts = await apiGetDistricts();
 			const featureList = await apiGetFeatureList();
 
 			const q = query(collection(db, 'listings'));
@@ -100,9 +100,9 @@ export default function useGetLightList() {
 			// Loop through each listing
 			querySnapshot.forEach((doc) => {
 				const listingData = doc.data();
-				const localRegionName = findAssociatedLocalRegion(
+				const localDistrictName = findAssociatedLocalDistrict(
 					listingData.area,
-					localRegions
+					localDistricts
 				);
 
 				const featureIcons = convertFeatureIcon(
@@ -117,7 +117,7 @@ export default function useGetLightList() {
 
 				listings.push({
 					...listingData,
-					localRegionName,
+					localDistrictName,
 					featureIcons,
 					iconFeatures,
 				});

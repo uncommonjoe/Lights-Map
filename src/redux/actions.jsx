@@ -1,6 +1,6 @@
 export const SET_LIGHT_LIST = 'SET_LIGHT_LIST';
 export const SET_FEATURES_LIST = 'SET_FEATURES_LIST';
-export const SET_REGIONS_LIST = 'SET_REGIONS_LIST';
+export const SET_DISTRICTS_LIST = 'SET_DISTRICTS_LIST';
 
 export const setLightList = (lightList) => {
 	return {
@@ -11,14 +11,14 @@ export const setLightList = (lightList) => {
 
 export const featuresList = (featureList) => {
 	return {
-		type: SET_REGIONS_LIST,
+		type: SET_FEATURES_LIST,
 		payload: featureList,
 	};
 };
 
-export const regionsList = (regionList) => {
+export const districtList = (districtList) => {
 	return {
-		type: SET_REGIONS_LIST,
-		payload: regionList,
+		type: SET_DISTRICTS_LIST,
+		payload: districtList,
 	};
 };
