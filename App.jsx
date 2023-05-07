@@ -48,7 +48,7 @@ const App = () => {
 			<NavigationContainer style={{ flex: 1 }}>
 				<StatusBar style='auto' />
 
-				{/* when app loads, display loading screen and get list, features and regions */}
+				{/* when app loads, display loading screen and get list, features and districts */}
 				{isLoading ? (
 					<LoadingScreen status={statusMessage} />
 				) : (
