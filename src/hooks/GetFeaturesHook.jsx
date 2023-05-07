@@ -2,21 +2,15 @@ import { useEffect, useState } from 'react';
 import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
 import auth from '../config/firebase';
 
-export default function getFeaturesHook() {
+const useGetFeatures = () => {
 	const [featureList, setFeatureList] = useState({});
 	const db = getFirestore(auth);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const fetchedRegions = await apiGetFeatureList();
-			setFeatureList(fetchedRegions);
-		};
-
-		fetchData();
+		fetchFeatures();
 	}, []);
 
-	// api call to get and return list of regions
-	const apiGetFeatureList = async () => {
+	const fetchFeatures = async () => {
 		const features = [];
 
 		try {
@@ -29,13 +23,13 @@ export default function getFeaturesHook() {
 
 			setFeatureList(features);
 			console.log(features);
-
-			return features;
-		} catch (e) {
-			console.error('Error getting features: ', e);
+		} catch (error) {
+			console.error('Error getting features: ', error);
 			throw error;
 		}
 	};
 
-	return [featureList, apiGetFeatureList];
-}
+	return [featureList, fetchFeatures];
+};
+
+export default useGetFeatures;

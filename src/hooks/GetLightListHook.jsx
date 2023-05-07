@@ -3,12 +3,12 @@ import { getFirestore, collection, getDocs, query } from 'firebase/firestore';
 import auth from '../config/firebase';
 
 import getRegionHook from './GetRegionHook';
-import getFeaturesHook from './GetFeaturesHook';
+import useGetFeatures from './GetFeaturesHook';
 
 export default function useGetLightList() {
 	const [lightList, setLightList] = useState([]);
 	const [regionList, apiGetRegionList] = getRegionHook();
-	const [featureList, apiGetFeatureList] = getFeaturesHook();
+	const [featureList, apiGetFeatureList] = useGetFeatures();
 	const db = getFirestore(auth);
 
 	useEffect(() => {

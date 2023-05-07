@@ -20,6 +20,9 @@ const text = StyleSheet.create({
 		color: '#292B2C',
 		fontSize: 16,
 	},
+	textLight: {
+		color: 'white',
+	},
 });
 
 export default text;
