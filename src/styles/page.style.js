@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export default page = StyleSheet.create({
+const page = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingBottom: 40,
@@ -19,3 +19,5 @@ export default page = StyleSheet.create({
 		padding: 25,
 	},
 });
+
+export default page;

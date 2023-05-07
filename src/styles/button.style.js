@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export default button = StyleSheet.create({
+const button = StyleSheet.create({
 	button: {
 		minHeight: 60,
 		flex: 1,
@@ -24,4 +24,32 @@ export default button = StyleSheet.create({
 	red: {
 		backgroundColor: '#931D1D',
 	},
+	listButton: {
+		backgroundColor: '#f0f0f0',
+		width: '100%',
+		borderRadius: 10,
+		padding: 20,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginTop: 10,
+		title: {
+			fontSize: 18,
+			fontWeight: 'bold',
+		},
+		icon: {},
+	},
+	formButton: {
+		padding: 10,
+		color: '#454C57',
+		fontSize: 16,
+		borderColor: '#7A8286',
+		borderWidth: 1,
+		backgroundColor: 'white',
+		borderRadius: 5,
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 });
+
+export default button;

@@ -1,24 +1,29 @@
 import { StyleSheet } from 'react-native';
 
-export default input = StyleSheet.create({
-	title: {
+const form = StyleSheet.create({
+	label: {
 		fontSize: 16,
 		color: '#454C57',
 		marginTop: 10,
 		marginBottom: 5,
-		fontWeight: 'bold',
+		fontWeight: 'normal',
 	},
 	// Text input style
-	text: {
+	textInput: {
 		padding: 10,
 		color: '#454C57',
 		fontSize: 16,
-		borderColor: 'rgba(41,43,44,.3)',
-		borderWidth: 2,
+		borderColor: '#7A8286',
+		borderWidth: 1,
 		backgroundColor: 'white',
-		borderRadius: 10,
+		borderRadius: 5,
+	},
+	datePicker: {
+		width: '100%',
 	},
 	container: {
-		marginBottom: 20,
+		marginBottom: 15,
 	},
 });
+
+export default form;

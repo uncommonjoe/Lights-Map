@@ -33,5 +33,17 @@ export default {
 		web: {
 			favicon: './src/assets/img/favicon.png',
 		},
+		expo: {
+			plugins: [
+				[
+					'expo-image-picker',
+					{
+						photosPermission: 'custom photos permission',
+						cameraPermission: 'Allow Light Map to open the camera',
+						microphonePermission: false,
+					},
+				],
+			],
+		},
 	},
 };
