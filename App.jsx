@@ -15,6 +15,10 @@ const App = () => {
 	const [isLoading, setLoading] = useState(true);
 	const [statusMessage, setStatusMessage] = useState('Initializing');
 
+	useEffect(() => {
+		fetchDataAndStore();
+	}, []);
+
 	const apiCalls = async () => {
 		// Get list of features
 		setStatusMessage('Getting light features');
@@ -38,10 +42,6 @@ const App = () => {
 		// Then set loading to false
 		setLoading(false);
 	};
-
-	useEffect(() => {
-		fetchDataAndStore();
-	}, []);
 
 	return (
 		<Provider store={store}>
