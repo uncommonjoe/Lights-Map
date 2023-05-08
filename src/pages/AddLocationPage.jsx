@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import {
 	StyleSheet,
 	Text,
@@ -7,21 +6,24 @@ import {
 	TouchableOpacity,
 	View,
 	TextInput,
-	Button,
 	Image,
 	ScrollView,
 } from 'react-native';
+import CheckBox from '../components/CheckBox';
+import SelectDropdown from 'react-native-select-dropdown';
+
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalendar, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
-import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { useSelector } from 'react-redux';
 
 import page from '../styles/page.style';
 import form from '../styles/form.style';
 import button from '../styles/button.style';
 
 const AddLocationPage = () => {
+	const districtsList = useSelector((state) => state.districtsList);
+	const featuresList = useSelector((state) => state.featuresList);
+
 	const [locationName, setLocationName] = useState('');
 	const [street, setStreet] = useState('');
 	const [city, setCity] = useState('');
@@ -30,6 +32,38 @@ const AddLocationPage = () => {
 	const [image, setImage] = useState(null);
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [selectedTime, setSelectedTime] = useState(new Date());
+	const [selectedDistricts, setSelectedDistricts] = useState([]);
+	const [selectedFeatures, setSelectedFeatures] = useState([]);
+	const [disableFeatures, setDisableFeatures] = useState(false);
+
+	const submitForm = () => {
+		// create an object with all form data
+		const formData = {
+			locationName,
+			street,
+			city,
+			state,
+			zip,
+			image,
+			selectedDate,
+			selectedTime,
+			selectedDistricts,
+			selectedFeatures,
+		};
+
+		console.log(formData);
+		// submit form data to Firebase
+		// firebase
+		// 	.database()
+		// 	.ref('locations')
+		// 	.push(formData)
+		// 	.then(() => {
+		// 		console.log('Form submitted successfully!');
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log(error);
+		// 	});
+	};
 
 	const handleDateChange = (event, selectedDate) => {
 		const currentDate = selectedDate;
@@ -50,8 +84,6 @@ const AddLocationPage = () => {
 			quality: 1,
 		});
 
-		console.log(result);
-
 		if (!result.canceled) {
 			setImage(result.assets[0].uri);
 			console.log(image.uri);
@@ -71,6 +103,17 @@ const AddLocationPage = () => {
 		if (!result.canceled) {
 			setImage(result.assets[0].uri);
 			console.log(image);
+		}
+	};
+	const handleFeatureCheckboxChange = (feature) => {
+		if (selectedFeatures.includes(feature)) {
+			setSelectedFeatures(selectedFeatures.filter((f) => f !== feature));
+			setDisableFeatures(false);
+		} else if (selectedFeatures.length < 3) {
+			setSelectedFeatures([...selectedFeatures, feature]);
+			setDisableFeatures(selectedFeatures.length === 2);
+		} else {
+			setDisableFeatures(true);
 		}
 	};
 
@@ -178,6 +221,45 @@ const AddLocationPage = () => {
 							style={{ width: 200, height: 200 }}
 						/>
 					)}
+				</View>
+
+				<View style={form.container}>
+					<Text style={form.label}>Select District</Text>
+
+					<SelectDropdown
+						data={districtsList}
+						onSelect={(district, index) => {
+							console.log(district, index);
+						}}
+						buttonTextAfterSelection={(district) => {
+							return district.name; // use the name property
+						}}
+						rowTextForSelection={(item) => {
+							return item.name; // use the name property
+						}}
+						defaultButtonText={'Select a district'}
+						buttonStyle={form.selectDropdown}
+						buttonTextStyle={form.selectDropdownText}
+					/>
+				</View>
+
+				<View style={form.container}>
+					<Text style={form.label}>Select Features (up to 3)</Text>
+					{featuresList.map((feature, index) => (
+						<View key={index} style={form.checkboxContainer}>
+							<CheckBox
+								checked={selectedFeatures.includes(feature)}
+								onChange={() =>
+									handleFeatureCheckboxChange(feature)
+								}
+								label={feature.name}
+								disabled={
+									disableFeatures &&
+									!selectedFeatures.includes(feature)
+								}
+							/>
+						</View>
+					))}
 				</View>
 
 				{/* Show Dates */}
@@ -303,6 +385,21 @@ const AddLocationPage = () => {
 							minuteInterval={15}
 						/>
 					</View>
+				</View>
+
+				<View
+					style={{
+						marginVertical: 20,
+					}}
+				>
+					<TouchableOpacity
+						style={[button.button, button.red]}
+						onPress={() => submitForm()}
+					>
+						<View style={button.button.container}>
+							<Text style={button.button.text}>Submit</Text>
+						</View>
+					</TouchableOpacity>
 				</View>
 			</ScrollView>
 		</SafeAreaView>

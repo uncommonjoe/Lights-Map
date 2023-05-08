@@ -24,6 +24,24 @@ const form = StyleSheet.create({
 	container: {
 		marginBottom: 15,
 	},
+	checkboxContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	checkbox: {
+		marginRight: 10,
+	},
+	selectDropdown: {
+		backgroundColor: 'transparent',
+		borderColor: '#7A8286',
+		borderWidth: 1,
+		backgroundColor: 'white',
+		borderRadius: 5,
+		width: '100%',
+	},
+	selectDropdownText: {
+		fontSize: 16,
+	},
 });
 
 export default form;
