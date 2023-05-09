@@ -16,7 +16,7 @@ const apiGetLocations = async (districts, features) => {
 		querySnapshot.forEach((doc) => {
 			const listingData = doc.data();
 			const localDistrictName = findAssociatedLocalDistrict(
-				listingData.area,
+				listingData.district,
 				districtList
 			);
 

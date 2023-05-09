@@ -24,38 +24,49 @@ const AddLocationPage = () => {
 	const districtsList = useSelector((state) => state.districtsList);
 	const featuresList = useSelector((state) => state.featuresList);
 
-	const [locationName, setLocationName] = useState('');
-	const [street, setStreet] = useState('');
+	const [name, setLocationName] = useState('');
+	const [address1, setStreet] = useState('');
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('MT');
 	const [zip, setZip] = useState('');
 	const [image, setImage] = useState(null);
-	const [selectedDate, setSelectedDate] = useState(new Date());
-	const [selectedTime, setSelectedTime] = useState(new Date());
-	const [selectedDistricts, setSelectedDistricts] = useState([]);
-	const [selectedFeatures, setSelectedFeatures] = useState([]);
+	const [dateStarts, setDateStarts] = useState(new Date());
+	const [dateEnds, setDateEnds] = useState(new Date());
+	const [weekDayTimeStarts, setWeekdayTimeStarts] = useState(new Date());
+	const [weekDayTimeEnds, setWeekdayTimeEnds] = useState(new Date());
+	const [weekEndTimeStarts, setWeekEndTimeStarts] = useState(new Date());
+	const [weekEndTimeEnds, setWeekEndTimeEnds] = useState(new Date());
+	const [district, setSelectedDistrict] = useState([]);
+	const [features, setSelectedFeatures] = useState([]);
 	const [disableFeatures, setDisableFeatures] = useState(false);
 
 	const submitForm = () => {
 		// create an object with all form data
 		const formData = {
-			locationName,
-			street,
-			city,
-			state,
-			zip,
+			name,
+			address: { address1, city, state, zip },
 			image,
-			selectedDate,
-			selectedTime,
-			selectedDistricts,
-			selectedFeatures,
+			likes: 0,
+			district,
+			features,
+			showTimes: {
+				dateStarts,
+				dateEnds,
+				weekDayTimeStarts,
+				weekDayTimeEnds,
+				weekEndTimeStarts,
+				weekEndTimeEnds,
+			},
 		};
 
 		console.log(formData);
-		// submit form data to Firebase
+
+		//TODO Update redux list
+
+		//submit form data to Firebase
 		// firebase
 		// 	.database()
-		// 	.ref('locations')
+		// 	.ref('listings')
 		// 	.push(formData)
 		// 	.then(() => {
 		// 		console.log('Form submitted successfully!');
@@ -63,16 +74,6 @@ const AddLocationPage = () => {
 		// 	.catch((error) => {
 		// 		console.log(error);
 		// 	});
-	};
-
-	const handleDateChange = (event, selectedDate) => {
-		const currentDate = selectedDate;
-		setSelectedDate(currentDate);
-	};
-
-	const handleTimeChange = (event, selectedTime) => {
-		const currentTime = selectedTime;
-		setSelectedTime(currentTime);
 	};
 
 	const handlePhotoSelection = async () => {
@@ -105,13 +106,15 @@ const AddLocationPage = () => {
 			console.log(image);
 		}
 	};
+
 	const handleFeatureCheckboxChange = (feature) => {
-		if (selectedFeatures.includes(feature)) {
-			setSelectedFeatures(selectedFeatures.filter((f) => f !== feature));
+		const maxFeatures = 2;
+		if (features.includes(feature.id)) {
+			setSelectedFeatures(features.filter((f) => f !== feature.id));
 			setDisableFeatures(false);
-		} else if (selectedFeatures.length < 3) {
-			setSelectedFeatures([...selectedFeatures, feature]);
-			setDisableFeatures(selectedFeatures.length === 2);
+		} else if (features.length < maxFeatures + 1) {
+			setSelectedFeatures([...features, feature.id]);
+			setDisableFeatures(features.length === maxFeatures - 1);
 		} else {
 			setDisableFeatures(true);
 		}
@@ -136,7 +139,7 @@ const AddLocationPage = () => {
 					<Text style={form.label}>Location Name</Text>
 					<TextInput
 						placeholder='eg. Smith Family Lights'
-						value={locationName}
+						value={name}
 						onChangeText={setLocationName}
 						style={form.textInput}
 					/>
@@ -147,7 +150,7 @@ const AddLocationPage = () => {
 					<Text style={form.label}>Address</Text>
 					<TextInput
 						placeholder='eg. 1234 Any Lane'
-						value={street}
+						value={address1}
 						onChangeText={setStreet}
 						style={form.textInput}
 					/>
@@ -228,9 +231,9 @@ const AddLocationPage = () => {
 
 					<SelectDropdown
 						data={districtsList}
-						onSelect={(district, index) => {
-							console.log(district, index);
-						}}
+						onSelect={(district, index) =>
+							setSelectedDistrict(index)
+						}
 						buttonTextAfterSelection={(district) => {
 							return district.name; // use the name property
 						}}
@@ -244,18 +247,18 @@ const AddLocationPage = () => {
 				</View>
 
 				<View style={form.container}>
-					<Text style={form.label}>Select Features (up to 3)</Text>
+					<Text style={form.label}>Select Features (up to 2)</Text>
 					{featuresList.map((feature, index) => (
 						<View key={index} style={form.checkboxContainer}>
 							<CheckBox
-								checked={selectedFeatures.includes(feature)}
+								checked={features.includes(feature.id)}
 								onChange={() =>
 									handleFeatureCheckboxChange(feature)
 								}
 								label={feature.name}
 								disabled={
 									disableFeatures &&
-									!selectedFeatures.includes(feature)
+									!features.includes(feature.id)
 								}
 							/>
 						</View>
@@ -282,9 +285,9 @@ const AddLocationPage = () => {
 					>
 						<Text style={form.label}>Starts</Text>
 						<DateTimePicker
-							value={selectedDate}
+							value={dateStarts}
 							mode='date'
-							onChange={handleDateChange}
+							onChange={(event, date) => setDateStarts(date)}
 						/>
 					</View>
 
@@ -297,9 +300,9 @@ const AddLocationPage = () => {
 						<Text style={form.label}>Ends</Text>
 
 						<DateTimePicker
-							value={selectedDate}
+							value={dateEnds}
 							mode='date'
-							onChange={handleDateChange}
+							onChange={(event, date) => setDateEnds(date)}
 						/>
 					</View>
 				</View>
@@ -326,9 +329,11 @@ const AddLocationPage = () => {
 					>
 						<Text style={form.label}>Weekday Starts</Text>
 						<DateTimePicker
-							value={selectedTime}
+							value={weekDayTimeStarts}
 							mode='time'
-							onChange={handleTimeChange}
+							onChange={(event, time) =>
+								setWeekdayTimeStarts(time)
+							}
 							minuteInterval={15}
 						/>
 					</View>
@@ -341,9 +346,9 @@ const AddLocationPage = () => {
 					>
 						<Text style={form.label}>Weekday Ends</Text>
 						<DateTimePicker
-							value={selectedTime}
+							value={weekDayTimeEnds}
 							mode='time'
-							onChange={handleTimeChange}
+							onChange={(event, time) => setWeekdayTimeEnds(time)}
 							minuteInterval={15}
 						/>
 					</View>
@@ -364,9 +369,11 @@ const AddLocationPage = () => {
 					>
 						<Text style={form.label}>Weekend Starts</Text>
 						<DateTimePicker
-							value={selectedTime}
+							value={weekEndTimeStarts}
 							mode='time'
-							onChange={handleTimeChange}
+							onChange={(event, time) =>
+								setWeekEndTimeStarts(time)
+							}
 							minuteInterval={15}
 						/>
 					</View>
@@ -379,9 +386,9 @@ const AddLocationPage = () => {
 					>
 						<Text style={form.label}>Weekend Ends</Text>
 						<DateTimePicker
-							value={selectedTime}
+							value={weekEndTimeEnds}
 							mode='time'
-							onChange={handleTimeChange}
+							onChange={(event, time) => setWeekEndTimeEnds(time)}
 							minuteInterval={15}
 						/>
 					</View>
