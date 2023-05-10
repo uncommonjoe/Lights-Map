@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { doc, getFirestore, setDoc, query } from 'firebase/firestore';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
 import auth from '../config/firebase';
 
 const apiCreateLocations = async (location) => {
@@ -7,6 +6,7 @@ const apiCreateLocations = async (location) => {
 
 	if (location) {
 		try {
+			// TODO: replace 4
 			setDoc(doc(db, 'listings', '4'), location);
 		} catch (error) {
 			console.error('Error adding document: ', error);

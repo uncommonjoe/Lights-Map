@@ -56,8 +56,8 @@ const MapPage = ({ locationsList }) => {
 						<Marker
 							key={index}
 							coordinate={{
-								latitude: marker.geo_location.latitude,
-								longitude: marker.geo_location.longitude,
+								latitude: marker.geoLocation.latitude,
+								longitude: marker.geoLocation.longitude,
 							}}
 							title={marker.name}
 							anchor={[0, 0]}

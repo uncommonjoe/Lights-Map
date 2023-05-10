@@ -20,6 +20,7 @@ import page from '../styles/page.style';
 import form from '../styles/form.style';
 import button from '../styles/button.style';
 import apiCreateLocations from '../functions/CreateLocation';
+import convertAddressToLatLng from '../functions/ConvertAddressToLatLng';
 
 const AddLocationPage = () => {
 	const districtsList = useSelector((state) => state.districtsList);
@@ -42,13 +43,26 @@ const AddLocationPage = () => {
 	const [disableFeatures, setDisableFeatures] = useState(false);
 
 	const submitForm = async () => {
+		const address = {
+			address1,
+			city,
+			state,
+			zip,
+		};
+
+		// convert address to lat long
+		const geoLoc = await convertAddressToLatLng(address);
+
 		// create an object with all form data
 		const formData = {
-			address: { address1, city, state, zip },
+			address,
 			description: '',
 			district,
 			features,
-			geoLocation: [],
+			geoLocation: {
+				latitude: geoLoc.lat,
+				longitude: geoLoc.lng,
+			},
 			id: 4,
 			image,
 			likes: 0,
@@ -69,6 +83,8 @@ const AddLocationPage = () => {
 
 		//submit form data to Firebase
 		await apiCreateLocations(formData);
+
+		// TODO: Send back to settings
 		console.log('success');
 	};
 
