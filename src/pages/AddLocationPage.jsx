@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import page from '../styles/page.style';
 import form from '../styles/form.style';
 import button from '../styles/button.style';
+import apiCreateLocations from '../functions/CreateLocation';
 
 const AddLocationPage = () => {
 	const districtsList = useSelector((state) => state.districtsList);
@@ -40,15 +41,18 @@ const AddLocationPage = () => {
 	const [features, setSelectedFeatures] = useState([]);
 	const [disableFeatures, setDisableFeatures] = useState(false);
 
-	const submitForm = () => {
+	const submitForm = async () => {
 		// create an object with all form data
 		const formData = {
-			name,
 			address: { address1, city, state, zip },
-			image,
-			likes: 0,
+			description: '',
 			district,
 			features,
+			geoLocation: [],
+			id: 4,
+			image,
+			likes: 0,
+			name,
 			showTimes: {
 				dateStarts,
 				dateEnds,
@@ -64,16 +68,8 @@ const AddLocationPage = () => {
 		//TODO Update redux list
 
 		//submit form data to Firebase
-		// firebase
-		// 	.database()
-		// 	.ref('listings')
-		// 	.push(formData)
-		// 	.then(() => {
-		// 		console.log('Form submitted successfully!');
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log(error);
-		// 	});
+		await apiCreateLocations(formData);
+		console.log('success');
 	};
 
 	const handlePhotoSelection = async () => {
