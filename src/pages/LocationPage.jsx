@@ -22,6 +22,9 @@ export default function LocationPage(payload) {
 	const [location, setLocation] = useState(payload.route.params.location);
 	const navigation = useNavigation();
 
+	const url = require('../../assets/default-location-image.jpg');
+	const img = location.image ? { uri: location.image } : url;
+
 	const convertTimestampToMoment = (timestamp) => {
 		console.log(timestamp);
 		const milliseconds =
@@ -35,9 +38,7 @@ export default function LocationPage(payload) {
 
 			<ScrollView style={[page.whiteBg]}>
 				<ImageBackground
-					source={{
-						uri: location.image,
-					}}
+					source={img}
 					resizeMode='cover'
 					style={local.image}
 				>

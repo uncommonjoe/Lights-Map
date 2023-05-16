@@ -5,6 +5,7 @@ import {
 	Text,
 	TouchableOpacity,
 	ImageBackground,
+	Platform,
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -14,6 +15,9 @@ import LikeBookmark from '../components/LikeBookmark';
 
 export default function LocationComponent(payload) {
 	const [location, setLocation] = useState(payload.location);
+
+	const url = require('../../assets/default-location-image.jpg');
+	const img = location.image ? { uri: location.image } : url;
 
 	const navigation = useNavigation();
 
@@ -30,9 +34,8 @@ export default function LocationComponent(payload) {
 			onPress={() => selectLocation(location)}
 		>
 			<ImageBackground
-				source={{
-					uri: location.image,
-				}}
+				key='image'
+				source={img}
 				resizeMode='cover'
 				style={local.displayListing.bgImage}
 				imageStyle={{
