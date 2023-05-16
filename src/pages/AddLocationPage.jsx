@@ -75,6 +75,7 @@ const AddLocationPage = () => {
 				weekEndTimeStarts,
 				weekEndTimeEnds,
 			},
+			created: new Date(),
 		};
 
 		console.log(formData);
@@ -133,6 +134,7 @@ const AddLocationPage = () => {
 	};
 
 	useEffect(() => {
+		// TODO: Move this into image function
 		// Request permissions for accessing the device's camera roll
 		(async () => {
 			const { status } =
