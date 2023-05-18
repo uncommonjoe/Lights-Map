@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 //import { getAnalytics } from 'firebase/analytics';
 
 import {
@@ -19,7 +21,9 @@ if (
 	!FIREBASE_APP_ID ||
 	!FIREBASE_MEASUREMENT_ID
 ) {
-	console.error('Missing firebase env variables');
+	console.error(
+		'Missing firebase env variables. Create a .env in root directory and add variables found in firebase.jsx'
+	);
 }
 
 const firebaseConfig = {
@@ -34,6 +38,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const auth = initializeApp(firebaseConfig);
-//const analytics = getAnalytics(app);
 
-export default auth;
+// Initialize Storage
+const storage = getStorage(auth);
+
+// Setup Database
+const db = getFirestore(auth);
+
+// Initialize Analytics
+//const analytics = getAnalytics(auth);
+
+export { auth, db, storage };
