@@ -39,7 +39,7 @@ export default function LocationComponent(payload) {
 				resizeMode='cover'
 				style={local.displayListing.bgImage}
 				imageStyle={{
-					borderRadius: 20,
+					borderRadius: 30,
 				}}
 			>
 				{/*** Like and Bookmark Buttons ***/}
@@ -115,8 +115,8 @@ const local = StyleSheet.create({
 	section2: {
 		padding: 20,
 		flexDirection: 'row',
-		borderBottomRightRadius: 20,
-		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 30,
+		borderBottomLeftRadius: 30,
 	},
 	displayListing: {
 		marginBottom: 15,
