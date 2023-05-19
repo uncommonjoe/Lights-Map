@@ -1,23 +1,25 @@
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import { auth } from '../config/firebase';
 
-const apiStoreImage = async (imageObj) => {
+const apiStoreImage = async (imageObj, name) => {
 	const db = getFirestore(auth);
-
 	const storage = getStorage();
 
-	console.log('StoreImage.jsx imageObj', imageObj);
+	// take name, remove spaces and make all lowercase to use as file name
+	const imageName = name.replace(/\s/g, '');
 
+	// get image uri and make it into a blob
 	const response = await fetch(imageObj.uri);
 	const imageBlob = await response.blob();
 
-	const storageRef = ref(storage, 'images/' + imageObj.fileName);
+	// set path to image and upload to storage
+	const storageRef = ref(storage, 'images/' + imageName);
 	await uploadBytes(storageRef, imageBlob);
 
+	// get image url from storage
 	const imageUrl = await getDownloadURL(storageRef);
-	console.log('the image URL:', imageUrl);
 
 	return imageUrl;
 };
