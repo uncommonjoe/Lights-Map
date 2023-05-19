@@ -2,7 +2,7 @@ export default {
 	expo: {
 		name: 'lights-map',
 		slug: 'lights-map',
-		version: '1.1.0',
+		version: '1.1.a4db8d7',
 		orientation: 'portrait',
 		icon: './src/assets/img/icon.png',
 		splash: {
@@ -38,9 +38,7 @@ export default {
 				[
 					'expo-image-picker',
 					{
-						photosPermission: 'custom photos permission',
-						cameraPermission: 'Allow Light Map to open the camera',
-						microphonePermission: false,
+						photosPermission: 'Allow Light Map to access photos',
 					},
 				],
 			],
