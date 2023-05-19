@@ -13,6 +13,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMap, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
+import openMap from 'react-native-open-maps';
+
 import Moment from 'moment';
 import page from '../styles/page.style';
 import text from '../styles/text.style';
@@ -20,6 +22,8 @@ import button from '../styles/button.style';
 
 export default function LocationPage(payload) {
 	const [location, setLocation] = useState(payload.route.params.location);
+	const [deviceCurrentLocation, setDeviceCurrentLocation] = useState(null);
+
 	const navigation = useNavigation();
 
 	const url = require('../../assets/default-location-image.jpg');
@@ -30,6 +34,25 @@ export default function LocationPage(payload) {
 		const milliseconds =
 			timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
 		return Moment(milliseconds);
+	};
+
+	const openMapsForDirections = async () => {
+		const address =
+			location.address.address1 +
+			' ' +
+			location.address.city +
+			' ' +
+			location.address.state +
+			' ' +
+			location.address.zip;
+		openMap({
+			start: 'My Location',
+			// waypoints: [
+			// 	'1123 Princeton Ave, Billings, MT 59102',
+			// 	'2044 Yellowstone Ave Billings MT 59102',
+			// ],
+			end: address,
+		});
 	};
 
 	return (
@@ -147,9 +170,7 @@ export default function LocationPage(payload) {
 
 					<TouchableOpacity
 						style={[button.button, button.red, { marginLeft: 10 }]}
-						onPress={() =>
-							navigation.navigate('Map', { location: location })
-						}
+						onPress={() => openMapsForDirections()}
 					>
 						<View style={button.button.container}>
 							<FontAwesomeIcon
