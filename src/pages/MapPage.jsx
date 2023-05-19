@@ -1,12 +1,5 @@
 import { useState, useRef } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import {
-	StyleSheet,
-	Text,
-	View,
-	SafeAreaView,
-	ActivityIndicator,
-} from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import page from '../styles/page.style';
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
@@ -15,7 +8,6 @@ import { iconMap } from '../modules/IconMapModule';
 import LocationComponent from '../components/LocationComponent';
 
 const MapPage = ({ locationsList }) => {
-	const [isLoading, setIsLoading] = useState(false);
 	const [selectedMarker, setSelectedMarker] = useState(null);
 	const mapRef = useRef(null);
 
@@ -24,11 +16,13 @@ const MapPage = ({ locationsList }) => {
 		await setSelectedMarker(null);
 		setSelectedMarker(marker);
 
+		// Move map to center of selected marker
 		mapRef.current.animateToRegion({
 			latitude: marker.geoLocation.latitude,
 			longitude: marker.geoLocation.longitude,
 		});
 
+		// Remove selection if marker is selected again
 		if (selectedMarker && selectedMarker.id === marker.id) {
 			setSelectedMarker(null);
 		}
@@ -43,53 +37,46 @@ const MapPage = ({ locationsList }) => {
 
 	return (
 		<SafeAreaView style={[page.container, local.container]}>
-			<StatusBar style='auto' />
-
-			{isLoading ? (
-				<ActivityIndicator />
-			) : (
-				<MapView
-					style={local.map}
-					initialRegion={{
-						latitude: 45.7833,
-						longitude: -108.5007,
-						latitudeDelta: 0.2,
-						longitudeDelta: 0.2,
-					}}
-					ref={mapRef}
-					onPress={handleMapPress}
-				>
-					{locationsList.map((marker, index) => (
-						<Marker
-							key={index}
-							coordinate={{
-								latitude: marker.geoLocation.latitude,
-								longitude: marker.geoLocation.longitude,
-							}}
-							title={marker.name}
-							anchor={[0, 0]}
-							onPress={() => handleMarkerPress(marker)}
+			<MapView
+				style={local.map}
+				initialRegion={{
+					latitude: 45.7833,
+					longitude: -108.5007,
+					latitudeDelta: 0.2,
+					longitudeDelta: 0.2,
+				}}
+				ref={mapRef}
+				onPress={handleMapPress}
+			>
+				{locationsList.map((marker, index) => (
+					<Marker
+						key={index}
+						coordinate={{
+							latitude: marker.geoLocation.latitude,
+							longitude: marker.geoLocation.longitude,
+						}}
+						title={marker.name}
+						anchor={[0, 0]}
+						onPress={() => handleMarkerPress(marker)}
+					>
+						<View
+							style={[
+								local.marker,
+								{
+									backgroundColor: marker.iconFeatures.color,
+								},
+							]}
 						>
-							<View
-								style={[
-									local.marker,
-									{
-										backgroundColor:
-											marker.iconFeatures.color,
-									},
-								]}
-							>
-								<FontAwesomeIcon
-									icon={iconMap[marker.iconFeatures.iconName]}
-									color={'white'}
-									size={14}
-									style={[local.marker.icon]}
-								/>
-							</View>
-						</Marker>
-					))}
-				</MapView>
-			)}
+							<FontAwesomeIcon
+								icon={iconMap[marker.iconFeatures.iconName]}
+								color={'white'}
+								size={14}
+								style={[local.marker.icon]}
+							/>
+						</View>
+					</Marker>
+				))}
+			</MapView>
 
 			{selectedMarker && (
 				<View style={local.callout}>

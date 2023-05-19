@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
-	StyleSheet,
-	View,
-	SafeAreaView,
 	Text,
+	View,
 	FlatList,
-	ScrollView,
+	StyleSheet,
+	SafeAreaView,
 	RefreshControl,
 } from 'react-native';
 import page from '../styles/page.style';
 import LocationComponent from '../components/LocationComponent';
-import { StatusBar } from 'expo-status-bar';
 import { connect, useDispatch } from 'react-redux';
 import { setLocations } from '../redux/actions';
 import apiGetLocations from '../functions/GetLocations';
@@ -39,8 +37,6 @@ const ListPage = ({ featuresList, districtsList, locationsList }) => {
 
 	return (
 		<SafeAreaView style={page.container}>
-			<StatusBar />
-
 			<FlatList
 				data={listFilterSort(locationsList)}
 				keyExtractor={(item) => item.id}

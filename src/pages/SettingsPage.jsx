@@ -1,11 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import {
-	StyleSheet,
-	Text,
-	View,
-	SafeAreaView,
-	TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -17,8 +10,6 @@ export default function SettingsPage() {
 
 	return (
 		<SafeAreaView style={page.container}>
-			<StatusBar />
-
 			<TouchableOpacity
 				style={button.listButton}
 				onPress={() => navigation.navigate('Add Location')}

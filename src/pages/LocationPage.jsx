@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-
-import { StatusBar } from 'expo-status-bar';
 import {
-	StyleSheet,
-	Text,
-	ImageBackground,
 	View,
-	SafeAreaView,
+	Text,
+	StyleSheet,
 	ScrollView,
+	SafeAreaView,
+	ImageBackground,
 	TouchableOpacity,
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -22,7 +20,6 @@ import button from '../styles/button.style';
 
 export default function LocationPage(payload) {
 	const [location, setLocation] = useState(payload.route.params.location);
-	const [deviceCurrentLocation, setDeviceCurrentLocation] = useState(null);
 
 	const navigation = useNavigation();
 
@@ -30,10 +27,13 @@ export default function LocationPage(payload) {
 	const img = location.image ? { uri: location.image } : url;
 
 	const convertTimestampToMoment = (timestamp) => {
-		console.log(timestamp);
 		const milliseconds =
 			timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
 		return Moment(milliseconds);
+	};
+
+	const navigateToMap = () => {
+		navigation.navigate('Map', { selectedLocation: location });
 	};
 
 	const openMapsForDirections = async () => {
@@ -57,8 +57,6 @@ export default function LocationPage(payload) {
 
 	return (
 		<SafeAreaView style={[page.whiteBg, { flex: 1 }]}>
-			<StatusBar style='dark' />
-
 			<ScrollView style={[page.whiteBg]}>
 				<ImageBackground
 					source={img}
@@ -148,9 +146,7 @@ export default function LocationPage(payload) {
 							button.green,
 							{ marginRight: 10 },
 						]}
-						onPress={() =>
-							navigation.navigate('Map', { location: location })
-						}
+						onPress={() => navigateToMap()}
 					>
 						<View style={button.button.container}>
 							<FontAwesomeIcon
