@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
 	StyleSheet,
@@ -17,11 +17,17 @@ import LocationComponent from '../components/LocationComponent';
 const MapPage = ({ locationsList }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [selectedMarker, setSelectedMarker] = useState(null);
+	const mapRef = useRef(null);
 
 	const handleMarkerPress = async (marker) => {
 		// Clears out old selectedMarker and sets the new marker that was pressed
 		await setSelectedMarker(null);
 		setSelectedMarker(marker);
+
+		mapRef.current.animateToRegion({
+			latitude: marker.geoLocation.latitude,
+			longitude: marker.geoLocation.longitude,
+		});
 
 		if (selectedMarker && selectedMarker.id === marker.id) {
 			setSelectedMarker(null);
@@ -50,6 +56,7 @@ const MapPage = ({ locationsList }) => {
 						latitudeDelta: 0.2,
 						longitudeDelta: 0.2,
 					}}
+					ref={mapRef}
 					onPress={handleMapPress}
 				>
 					{locationsList.map((marker, index) => (
