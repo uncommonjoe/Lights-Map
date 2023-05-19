@@ -8,19 +8,21 @@ import {
 	TextInput,
 	Image,
 	ScrollView,
+	Dimensions,
 } from 'react-native';
 import CheckBox from '../components/CheckBox';
 import SelectDropdown from 'react-native-select-dropdown';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import * as ImagePicker from 'expo-image-picker';
 import { useSelector } from 'react-redux';
 
 import page from '../styles/page.style';
 import form from '../styles/form.style';
 import button from '../styles/button.style';
 import apiCreateLocations from '../functions/CreateLocation';
+import apiStoreImage from '../functions/StoreImage';
 import convertAddressToLatLng from '../functions/ConvertAddressToLatLng';
+import photoSelection from '../functions/HandlePhotoSelection';
 
 const AddLocationPage = () => {
 	const districtsList = useSelector((state) => state.districtsList);
@@ -31,6 +33,7 @@ const AddLocationPage = () => {
 	const [city, setCity] = useState('');
 	const [state, setState] = useState('MT');
 	const [zip, setZip] = useState('');
+	const [imageObj, setImageObj] = useState(null);
 	const [image, setImage] = useState(null);
 	const [dateStarts, setDateStarts] = useState(new Date());
 	const [dateEnds, setDateEnds] = useState(new Date());
@@ -41,8 +44,14 @@ const AddLocationPage = () => {
 	const [district, setSelectedDistrict] = useState([]);
 	const [features, setSelectedFeatures] = useState([]);
 	const [disableFeatures, setDisableFeatures] = useState(false);
+	const windowWidth = Dimensions.get('window').width;
 
 	const submitForm = async () => {
+		// Upload image to Storage and return URL
+		const imageUrl = await apiStoreImage(imageObj, name);
+		setImage(imageUrl);
+
+		// Update address object
 		const address = {
 			address1,
 			city,
@@ -51,7 +60,16 @@ const AddLocationPage = () => {
 		};
 
 		// convert address to lat long
-		const geoLoc = await convertAddressToLatLng(address);
+		let geoLoc;
+		if (
+			address.address1 &&
+			address.city &&
+			address.city &&
+			address.state &&
+			address.zip
+		) {
+			geoLoc = await convertAddressToLatLng(address);
+		}
 
 		// create an object with all form data
 		const formData = {
@@ -89,35 +107,9 @@ const AddLocationPage = () => {
 		console.log('success');
 	};
 
-	const handlePhotoSelection = async () => {
-		// No permissions request is necessary for launching the image library
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		});
-
-		if (!result.canceled) {
-			setImage(result.assets[0].uri);
-			console.log(image.uri);
-		}
-	};
-
-	const handlePhotoCapture = async () => {
-		// Open the device's camera and let the user capture a photo
-		const result = await ImagePicker.launchCameraAsync({
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		});
-
-		console.log(result);
-
-		if (!result.canceled) {
-			setImage(result.assets[0].uri);
-			console.log(image);
-		}
+	const photoSelected = async () => {
+		const img = await photoSelection();
+		setImageObj(img);
 	};
 
 	const handleFeatureCheckboxChange = (feature) => {
@@ -132,18 +124,6 @@ const AddLocationPage = () => {
 			setDisableFeatures(true);
 		}
 	};
-
-	useEffect(() => {
-		// TODO: Move this into image function
-		// Request permissions for accessing the device's camera roll
-		(async () => {
-			const { status } =
-				await ImagePicker.requestMediaLibraryPermissionsAsync();
-			if (status !== 'granted') {
-				console.log('Permission denied');
-			}
-		})();
-	}, []);
 
 	return (
 		<SafeAreaView style={page.container}>
@@ -212,32 +192,23 @@ const AddLocationPage = () => {
 				<View style={form.container}>
 					<Text style={form.label}>Attach Photo</Text>
 
-					<View
-						style={{
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-						}}
-					>
-						<TouchableOpacity
-							style={[button.formButton, { marginRight: 10 }]}
-							onPress={handlePhotoSelection}
-						>
-							<Text>Select Photo</Text>
-						</TouchableOpacity>
-
-						<TouchableOpacity
-							style={[button.formButton, { marginLeft: 10 }]}
-							onPress={handlePhotoCapture}
-						>
-							<Text>Take Photo</Text>
-						</TouchableOpacity>
-					</View>
-					{image && (
+					{imageObj && (
 						<Image
-							source={{ uri: image }}
-							style={{ width: 200, height: 200 }}
+							source={{ uri: imageObj.uri }}
+							style={{
+								width: windowWidth,
+								height: 200,
+								marginBottom: 10,
+							}}
 						/>
 					)}
+
+					<TouchableOpacity
+						style={button.formButton}
+						onPress={() => photoSelected()}
+					>
+						<Text>{imageObj ? 'Change' : 'Select'} Photo</Text>
+					</TouchableOpacity>
 				</View>
 
 				<View style={form.container}>
