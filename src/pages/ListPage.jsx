@@ -1,15 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, SafeAreaView, Text, FlatList } from 'react-native';
+import {
+	StyleSheet,
+	View,
+	SafeAreaView,
+	Text,
+	FlatList,
+	ScrollView,
+	RefreshControl,
+} from 'react-native';
 import page from '../styles/page.style';
 import LocationComponent from '../components/LocationComponent';
 import { StatusBar } from 'expo-status-bar';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { setLocations } from '../redux/actions';
+import apiGetLocations from '../functions/GetLocations';
 
-const ListPage = ({ locationsList }) => {
+const ListPage = ({ featuresList, districtsList, locationsList }) => {
+	const [refreshing, setRefreshing] = useState(false);
+
+	const dispatch = useDispatch();
+
 	const listFilterSort = (list) => {
 		// sorts with most likes at top
 		return list.sort((a, b) => b.likes - a.likes);
+	};
+
+	const getList = async () => {
+		setRefreshing(true);
+		try {
+			const newList = await apiGetLocations(districtsList, featuresList);
+			dispatch(setLocations(newList));
+		} catch (error) {
+			console.error('Error getting locations:', error);
+		} finally {
+			setRefreshing(false);
+		}
 	};
 
 	return (
@@ -29,6 +54,12 @@ const ListPage = ({ locationsList }) => {
 						</Text>
 					</View>
 				)}
+				refreshControl={
+					<RefreshControl
+						refreshing={refreshing}
+						onRefresh={() => getList()}
+					/>
+				}
 			/>
 		</SafeAreaView>
 	);
@@ -36,6 +67,8 @@ const ListPage = ({ locationsList }) => {
 
 const mapStateToProps = (state) => {
 	return {
+		featuresList: state.featuresList,
+		districtsList: state.districtsList,
 		locationsList: state.locationsList,
 	};
 };
