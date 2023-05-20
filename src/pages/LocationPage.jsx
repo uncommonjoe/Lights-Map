@@ -17,6 +17,8 @@ import Moment from 'moment';
 import page from '../styles/page.style';
 import text from '../styles/text.style';
 import button from '../styles/button.style';
+import store from '../redux/store';
+import { setSelectedLocation } from '../redux/actions';
 
 export default function LocationPage(payload) {
 	const [location, setLocation] = useState(payload.route.params.location);
@@ -32,7 +34,9 @@ export default function LocationPage(payload) {
 		return Moment(milliseconds);
 	};
 
-	const navigateToMap = () => {
+	const navigateToMap = async () => {
+		// store to redux, then navigate to map
+		await store.dispatch(setSelectedLocation(location));
 		navigation.navigate('Map', { selectedLocation: location });
 	};
 

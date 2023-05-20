@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 import page from '../styles/page.style';
 import MapView, { Marker } from 'react-native-maps';
@@ -6,20 +6,48 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { iconMap } from '../modules/IconMapModule';
 import LocationComponent from '../components/LocationComponent';
+import { useIsFocused } from '@react-navigation/native';
 
-const MapPage = ({ locationsList }) => {
+const MapPage = ({ locationsList, selectedLocation }) => {
 	const [selectedMarker, setSelectedMarker] = useState(null);
 	const mapRef = useRef(null);
+	const markerRef = useRef(null);
+	const isFocused = useIsFocused();
+
+	const initial = async () => {
+		console.log('markerRef.current', markerRef.current);
+
+		if (markerRef.current) {
+			markerRef.current.showCallout();
+		}
+		if (isFocused && selectedLocation) {
+			console.log('focused');
+
+			await handleMarkerPress(selectedLocation);
+			markerRef.current.showCallout();
+		} else {
+			console.log('unfocused');
+			await setSelectedMarker(null);
+			markerRef.current.clear();
+			markerRef.current.hideCallout();
+		}
+	};
+
+	useEffect(() => {
+		initial();
+	}, [selectedLocation, isFocused]);
 
 	const handleMarkerPress = async (marker) => {
 		// Clears out old selectedMarker and sets the new marker that was pressed
 		await setSelectedMarker(null);
-		setSelectedMarker(marker);
+		await setSelectedMarker(marker);
 
 		// Move map to center of selected marker
 		mapRef.current.animateToRegion({
 			latitude: marker.geoLocation.latitude,
 			longitude: marker.geoLocation.longitude,
+			latitudeDelta: 0.2,
+			longitudeDelta: 0.2,
 		});
 
 		// Remove selection if marker is selected again
@@ -51,6 +79,7 @@ const MapPage = ({ locationsList }) => {
 				{locationsList.map((marker, index) => (
 					<Marker
 						key={index}
+						ref={markerRef}
 						coordinate={{
 							latitude: marker.geoLocation.latitude,
 							longitude: marker.geoLocation.longitude,
@@ -90,6 +119,7 @@ const MapPage = ({ locationsList }) => {
 const mapStateToProps = (state) => {
 	return {
 		locationsList: state.locationsList,
+		selectedLocation: state.selectedLocation,
 	};
 };
 

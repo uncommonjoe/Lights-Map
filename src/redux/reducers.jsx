@@ -1,9 +1,15 @@
-import { SET_DISTRICTS, SET_FEATURES, SET_LOCATIONS } from './actions';
+import {
+	SET_DISTRICTS,
+	SET_FEATURES,
+	SET_LOCATIONS,
+	SET_SELECTED_LOCATION,
+} from './actions';
 
 const initialState = {
 	districtsList: [],
 	featuresList: [],
 	locationsList: [],
+	selectedLocation: null,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -22,6 +28,11 @@ const appReducer = (state = initialState, action) => {
 			return {
 				...state,
 				locationsList: action.payload,
+			};
+		case SET_SELECTED_LOCATION:
+			return {
+				...state,
+				selectedLocation: action.payload,
 			};
 		default:
 			return state;
