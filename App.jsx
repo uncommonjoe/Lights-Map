@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import LoadingScreen from './src/components/LoadingScreen';
-import BottomTab from './src/components/BottomTabs';
+import Navigation from './src/components/Navigation';
 import apiGetFeatures from './src/functions/GetFeatures';
 import apiGetDistricts from './src/functions/GetDistricts';
 import apiGetLocations from './src/functions/GetLocations';
@@ -52,7 +52,7 @@ const App = () => {
 				{isLoading ? (
 					<LoadingScreen status={statusMessage} />
 				) : (
-					<BottomTab />
+					<Navigation />
 				)}
 			</NavigationContainer>
 		</Provider>

@@ -1,19 +1,13 @@
 import React from 'react';
-import {
-	StyleSheet,
-	Text,
-	View,
-	TouchableOpacity,
-	SafeAreaView,
-} from 'react-native';
+import { Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
-	faList,
 	faMap,
-	faBookmark,
 	faGear,
+	faList,
+	faBookmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 import BookmarksPage from '../pages/BookmarksPage';
@@ -29,7 +23,7 @@ const Bookmarks = createNativeStackNavigator();
 const Settings = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export default BottomTab = () => {
+export default Navigation = () => {
 	var ListStack = ({}) => (
 		<List.Navigator
 			screenOptions={() => ({
