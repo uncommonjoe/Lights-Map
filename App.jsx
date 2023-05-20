@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import LoadingScreen from './src/components/LoadingScreen';
-import Navigation from './src/components/Navigation';
+import Navigation from './src/components/NavigationComponent';
 import apiGetFeatures from './src/functions/GetFeatures';
 import apiGetDistricts from './src/functions/GetDistricts';
 import apiGetLocations from './src/functions/GetLocations';
