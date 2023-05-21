@@ -12,6 +12,7 @@ import {
 
 import BookmarksPage from '../pages/BookmarksPage';
 import ListPage from '../pages/ListPage';
+import LandingPage from '../pages/LandingPage';
 import LocationPage from '../pages/LocationPage';
 import MapPage from '../pages/MapPage';
 import SettingsPage from '../pages/SettingsPage';
@@ -28,17 +29,20 @@ export default Navigation = () => {
 		<List.Navigator
 			screenOptions={() => ({
 				gestureEnabled: true,
+				headerShown: false,
 			})}
-			initialRouteName='ListPage'
 		>
+			<List.Screen name='LandingPage' component={LandingPage} />
 			<List.Screen
-				name='Billings, MT'
+				name='ListPage'
 				component={ListPage}
-				options={{
-					header: () => null,
-				}}
+				screenOptions={{ headerShown: false }}
 			/>
-			<List.Screen name='Location' component={LocationPage} />
+			<List.Screen
+				name='Location'
+				component={LocationPage}
+				screenOptions={{ headerShown: false }}
+			/>
 		</List.Navigator>
 	);
 
@@ -162,7 +166,11 @@ export default Navigation = () => {
 
 	return (
 		<Tab.Navigator tabBar={(props) => <BottomTabBar {...props} />}>
-			<Tab.Screen name='List' component={ListStack} />
+			<Tab.Screen
+				name='List'
+				component={ListStack}
+				options={{ headerShown: false }}
+			/>
 			<Tab.Screen name='Map' component={MapStack} />
 			<Tab.Screen name='Bookmarks' component={BookmarksStack} />
 			<Tab.Screen name='Settings' component={SettingsStack} />

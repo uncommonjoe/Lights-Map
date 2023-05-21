@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import {
-	StyleSheet,
 	View,
 	Text,
+	StyleSheet,
 	TouchableOpacity,
 	ImageBackground,
-	Platform,
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,8 +12,12 @@ import { useNavigation } from '@react-navigation/native';
 import { iconMap } from '../modules/IconMapModule';
 import LikeBookmark from '../components/LikeBookmark';
 
-export default function LocationComponent(payload) {
-	const [location, setLocation] = useState(payload.location);
+export default function LocationComponent({
+	componentLocation,
+	componentSize,
+}) {
+	const [location] = useState(componentLocation);
+	const [size] = useState(componentSize);
 	const navigation = useNavigation();
 
 	const url = require('../../assets/default-location-image.jpg');
@@ -26,6 +29,44 @@ export default function LocationComponent(payload) {
 		},
 		[navigation]
 	);
+
+	const local = StyleSheet.create({
+		section1: {
+			flex: 1,
+			flexDirection: 'row',
+			justifyContent: 'flex-end',
+		},
+		section2: {
+			padding: 20,
+			flexDirection: 'row',
+			borderBottomRightRadius: 30,
+			borderBottomLeftRadius: 30,
+		},
+		displayListing: {
+			marginBottom: 15,
+			height: 175,
+			bgImage: {
+				flex: 1,
+			},
+			contents: {
+				flexDirection: 'row',
+				justifyContent: 'space-between',
+				width: size === 'md' ? 250 : '100%',
+			},
+			icons: {
+				marginLeft: 5,
+			},
+			title: {
+				color: 'white',
+				fontSize: 18,
+				fontWeight: '800',
+			},
+			subtitle: {
+				color: 'white',
+				fontSize: 16,
+			},
+		},
+	});
 
 	return (
 		<TouchableOpacity
@@ -95,50 +136,14 @@ export default function LocationComponent(payload) {
 							})}
 						</View>
 
-						<Text style={local.displayListing.subtitle}>
-							{location.localDistrictName}
-						</Text>
+						{size !== 'md' ? (
+							<Text style={local.displayListing.subtitle}>
+								{location.localDistrictName}
+							</Text>
+						) : null}
 					</View>
 				</LinearGradient>
 			</ImageBackground>
 		</TouchableOpacity>
 	);
 }
-
-const local = StyleSheet.create({
-	section1: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-	},
-	section2: {
-		padding: 20,
-		flexDirection: 'row',
-		borderBottomRightRadius: 30,
-		borderBottomLeftRadius: 30,
-	},
-	displayListing: {
-		marginBottom: 15,
-		height: 175,
-		bgImage: {
-			flex: 1,
-		},
-		contents: {
-			flexDirection: 'row',
-			justifyContent: 'space-between',
-			width: '100%',
-		},
-		icons: {
-			marginLeft: 5,
-		},
-		title: {
-			color: 'white',
-			fontSize: 18,
-			fontWeight: '800',
-		},
-		subtitle: {
-			color: 'white',
-			fontSize: 16,
-		},
-	},
-});

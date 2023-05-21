@@ -50,6 +50,12 @@ const button = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	link: {
+		color: '#3366CC',
+		fontSize: 16,
+		fontWeight: '500',
+		textDecorationStyles: 'solid',
+	},
 });
 
 export default button;
