@@ -18,6 +18,7 @@ import { setLocations } from '../redux/actions';
 import LandingHeader from '../components/LandingHeaderComponent';
 import LocationComponent from '../components/LocationComponent';
 import FeaturesButton from '../components/FeaturesButton';
+import DistrictsButton from '../components/DistrictsButton';
 import { useNavigation } from '@react-navigation/native';
 
 const LandingPage = ({ featuresList, districtsList, locationsList }) => {
@@ -41,9 +42,9 @@ const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 
 	return (
 		<SafeAreaView style={[page.whiteBg, { flex: 1 }]}>
-			<LandingHeader />
-
 			<ScrollView>
+				<LandingHeader />
+
 				<View>
 					<View style={[local.section, local.horizontal]}>
 						<Text style={text.largeTitle}>Most Popular</Text>
@@ -88,13 +89,38 @@ const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 				</View>
 
 				{districtsList ? (
-					<View style={local.section}>
-						<Text style={text.largeTitle}>Districts</Text>
+					<View>
+						<View style={local.section}>
+							<Text style={text.largeTitle}>Districts</Text>
+						</View>
+						<FlatList
+							data={districtsList}
+							keyExtractor={(item) => item.id}
+							style={{ paddingHorizontal: 15 }}
+							horizontal={true}
+							decelerationRate={0}
+							scrollEventThrottle={1}
+							showsHorizontalScrollIndicator={'false'}
+							snapToInterval={300} //your element width
+							snapToAlignment={'center'}
+							ListEmptyComponent={() => (
+								<View>
+									<Text>No results found.</Text>
+								</View>
+							)}
+							renderItem={({ item }) => {
+								return (
+									<View style={{ marginRight: 10 }}>
+										<DistrictsButton district={item} />
+									</View>
+								);
+							}}
+						/>
 					</View>
 				) : null}
 
 				{featuresList ? (
-					<View>
+					<View style={{ marginBottom: 15 }}>
 						<View style={local.section}>
 							<Text style={text.largeTitle}>Features</Text>
 						</View>
