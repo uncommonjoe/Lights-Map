@@ -54,7 +54,7 @@ const button = StyleSheet.create({
 		color: '#3366CC',
 		fontSize: 16,
 		fontWeight: '500',
-		textDecorationStyles: 'solid',
+		textDecorationLine: 'underline',
 	},
 });
 

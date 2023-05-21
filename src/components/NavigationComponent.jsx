@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
 	faMap,
 	faGear,
-	faList,
 	faBookmark,
+	faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 
 import BookmarksPage from '../pages/BookmarksPage';
@@ -138,7 +138,7 @@ export default Navigation = () => {
 							<FontAwesomeIcon
 								icon={
 									index == 0
-										? faList
+										? faMagnifyingGlass
 										: index == 1
 										? faMap
 										: index == 2
@@ -167,7 +167,7 @@ export default Navigation = () => {
 	return (
 		<Tab.Navigator tabBar={(props) => <BottomTabBar {...props} />}>
 			<Tab.Screen
-				name='List'
+				name='Discover'
 				component={ListStack}
 				options={{ headerShown: false }}
 			/>
