@@ -16,12 +16,15 @@ const apiStoreImage = async (imageObj, name) => {
 
 	// set path to image and upload to storage
 	const storageRef = ref(storage, 'images/' + imageName);
-	await uploadBytes(storageRef, imageBlob);
+	const uploadTask = uploadBytes(storageRef, imageBlob);
 
-	// get image url from storage
-	const imageUrl = await getDownloadURL(storageRef);
+	// Wait for the upload task to complete
+	await uploadTask;
 
-	return imageUrl;
+	// get image URL from storage
+	const downloadUrl = await getDownloadURL(storageRef);
+
+	return downloadUrl;
 };
 
 export default apiStoreImage;

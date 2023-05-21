@@ -11,14 +11,14 @@ const photoSelection = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
 			allowsEditing: false,
-			quality: 0.1,
+			quality: 0.2,
 		});
 
 		if (!result.canceled) {
 			const image = await manipulateAsync(result.assets[0].uri, [
 				{
 					resize: {
-						width: 350,
+						width: 400,
 					},
 				},
 			]);

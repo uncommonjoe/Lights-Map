@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
-	StyleSheet,
 	Text,
+	View,
+	Image,
+	TextInput,
+	Dimensions,
+	StyleSheet,
+	ScrollView,
 	SafeAreaView,
 	TouchableOpacity,
-	View,
-	TextInput,
-	Image,
-	ScrollView,
-	Dimensions,
 } from 'react-native';
 import CheckBox from '../components/CheckBox';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -30,9 +30,9 @@ const AddLocationPage = () => {
 
 	const [name, setLocationName] = useState('');
 	const [address1, setStreet] = useState('');
-	const [city, setCity] = useState('');
+	const [city, setCity] = useState('Billings');
 	const [state, setState] = useState('MT');
-	const [zip, setZip] = useState('');
+	const [zip, setZip] = useState('59102');
 	const [imageObj, setImageObj] = useState(null);
 	const [image, setImage] = useState(null);
 	const [dateStarts, setDateStarts] = useState(new Date());
@@ -47,6 +47,8 @@ const AddLocationPage = () => {
 	const windowWidth = Dimensions.get('window').width;
 
 	const submitForm = async () => {
+		const id = Math.floor(Date.now() * Math.random()).toString();
+
 		// Upload image to Storage and return URL
 		const imageUrl = await apiStoreImage(imageObj, name);
 		setImage(imageUrl);
@@ -81,7 +83,7 @@ const AddLocationPage = () => {
 				latitude: geoLoc.lat,
 				longitude: geoLoc.lng,
 			},
-			id: 4,
+			id: id,
 			image,
 			likes: 0,
 			name,
@@ -217,7 +219,7 @@ const AddLocationPage = () => {
 					<SelectDropdown
 						data={districtsList}
 						onSelect={(district, index) =>
-							setSelectedDistrict(index)
+							setSelectedDistrict(district.id)
 						}
 						buttonTextAfterSelection={(district) => {
 							return district.name; // use the name property
