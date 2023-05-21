@@ -109,7 +109,7 @@ const MapPage = ({ locationsList, selectedLocation }) => {
 
 			{selectedMarker && (
 				<View style={local.callout}>
-					<LocationComponent location={selectedMarker} />
+					<LocationComponent componentLocation={selectedMarker} />
 				</View>
 			)}
 		</SafeAreaView>

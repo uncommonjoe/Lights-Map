@@ -36,12 +36,13 @@ const ListPage = ({ featuresList, districtsList, locationsList }) => {
 	};
 
 	return (
-		<SafeAreaView style={page.container}>
+		<SafeAreaView style={[page.container]}>
 			<FlatList
 				data={listFilterSort(locationsList)}
 				keyExtractor={(item) => item.id}
+				style={{ marginHorizontal: 15 }}
 				renderItem={({ item }) => {
-					return <LocationComponent location={item} />;
+					return <LocationComponent componentLocation={item} />;
 				}}
 				ListEmptyComponent={() => (
 					<View style={local.noResultsWrap}>

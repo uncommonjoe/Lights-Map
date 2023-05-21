@@ -8,6 +8,7 @@ import {
 	ImageBackground,
 	TouchableOpacity,
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMap, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -60,19 +61,22 @@ export default function LocationPage(payload) {
 	};
 
 	return (
-		<SafeAreaView style={[page.whiteBg, { flex: 1 }]}>
-			<ScrollView style={[page.whiteBg]}>
-				<ImageBackground
-					source={img}
-					resizeMode='cover'
-					style={local.image}
-				>
-					{/*** Like and Bookmark Buttons ***/}
+		<ScrollView style={[page.whiteBg, { flex: 1 }]}>
+			<StatusBar style='light' />
+			<ImageBackground
+				source={img}
+				resizeMode='cover'
+				style={local.image}
+			>
+				{/*** Like and Bookmark Buttons ***/}
+				<SafeAreaView>
 					<View style={local.image.container}>
 						<LikeBookmark likesPayload={location.likes} />
 					</View>
-				</ImageBackground>
+				</SafeAreaView>
+			</ImageBackground>
 
+			<SafeAreaView style={[page.whiteBg]}>
 				{/*** Location Title, area and description ***/}
 				<View style={page.container}>
 					<Text style={text.largeTitle}>{location.name}</Text>
@@ -187,14 +191,14 @@ export default function LocationPage(payload) {
 						</View>
 					</TouchableOpacity>
 				</View>
-			</ScrollView>
-		</SafeAreaView>
+			</SafeAreaView>
+		</ScrollView>
 	);
 }
 
 const local = StyleSheet.create({
 	image: {
-		height: 200,
+		height: 300,
 		container: {
 			flex: 1,
 			flexDirection: 'row',

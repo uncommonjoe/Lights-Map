@@ -37,7 +37,7 @@ const LoadingScreen = ({ status }) => {
 						},
 					]}
 				>
-					Billings Holiday Map
+					Billings Christmas Lights
 				</Text>
 
 				<Text style={[text.textLight, { textAlign: 'center' }]}>
