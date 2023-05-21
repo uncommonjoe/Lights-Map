@@ -28,7 +28,6 @@ const MapPage = ({ locationsList, selectedLocation }) => {
 		} else {
 			console.log('unfocused');
 			await setSelectedMarker(null);
-			markerRef.current.clear();
 			markerRef.current.hideCallout();
 		}
 	};
