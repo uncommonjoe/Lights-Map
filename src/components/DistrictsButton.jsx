@@ -12,7 +12,12 @@ export default function DistrictsButton(payload) {
 	return (
 		<TouchableOpacity
 			style={[local.button]}
-			onPress={() => navigation.navigate('ListPage')}
+			onPress={() =>
+				navigation.navigate('ListPage', {
+					filterType: 'district',
+					id: district.id,
+				})
+			}
 		>
 			<View style={[local.iconContainer]}>
 				<Text style={[local.title]}>{district.name}</Text>

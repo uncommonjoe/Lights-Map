@@ -13,13 +13,19 @@ import { connect, useDispatch } from 'react-redux';
 import { setLocations } from '../redux/actions';
 import apiGetLocations from '../functions/GetLocations';
 
-const ListPage = ({ featuresList, districtsList, locationsList }) => {
+const ListPage = ({ featuresList, districtsList, locationsList, route }) => {
 	const [refreshing, setRefreshing] = useState(false);
+	const [filterType] = useState(
+		route.params && route.params.filterType ? route.params.filterType : null
+	);
+	const [filterId] = useState(
+		route.params && route.params.id ? route.params.id : null
+	);
 
 	const dispatch = useDispatch();
 
 	const listFilterSort = (list) => {
-		// sorts with most likes at top
+		// Sorts with most likes at the top
 		return list.sort((a, b) => b.likes - a.likes);
 	};
 
@@ -35,10 +41,26 @@ const ListPage = ({ featuresList, districtsList, locationsList }) => {
 		}
 	};
 
+	const filterList = (list) => {
+		if (filterType === 'district' && filterId) {
+			list = list
+				.filter(function (item) {
+					return item.district === filterId;
+				})
+				.map(function (item) {
+					return item;
+				});
+		}
+		// Return the original list if no filter is applied
+		return list;
+	};
+
+	const filteredLocationsList = filterList(locationsList);
+
 	return (
 		<SafeAreaView style={[page.container]}>
 			<FlatList
-				data={listFilterSort(locationsList)}
+				data={listFilterSort(filteredLocationsList)}
 				keyExtractor={(item) => item.id}
 				style={{ marginHorizontal: 15 }}
 				renderItem={({ item }) => {
@@ -54,7 +76,7 @@ const ListPage = ({ featuresList, districtsList, locationsList }) => {
 				refreshControl={
 					<RefreshControl
 						refreshing={refreshing}
-						onRefresh={() => getList()}
+						onRefresh={getList}
 					/>
 				}
 			/>
