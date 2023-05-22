@@ -41,6 +41,13 @@ export default {
 						photosPermission: 'Allow Light Map to access photos',
 					},
 				],
+				[
+					'expo-location',
+					{
+						locationAlwaysAndWhenInUsePermission:
+							'Allow Light Map to use your location.',
+					},
+				],
 			],
 		},
 	},

@@ -46,7 +46,7 @@ const App = () => {
 	return (
 		<Provider store={store}>
 			<NavigationContainer style={{ flex: 1 }}>
-				<StatusBar style='auto' />
+				<StatusBar style='dark' />
 
 				{/* when app loads, display loading screen and get list, features and districts */}
 				{isLoading ? (

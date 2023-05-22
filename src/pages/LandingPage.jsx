@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
 	Text,
 	View,
-	Button,
 	FlatList,
 	ScrollView,
 	StyleSheet,
 	SafeAreaView,
-	RefreshControl,
 	TouchableOpacity,
 } from 'react-native';
 import page from '../styles/page.style';
@@ -20,9 +18,14 @@ import LocationComponent from '../components/LocationComponent';
 import FeaturesButton from '../components/FeaturesButton';
 import DistrictsButton from '../components/DistrictsButton';
 import { useNavigation } from '@react-navigation/native';
+import * as Location from 'expo-location';
+import { getDistance, convertDistance } from 'geolib';
 
 const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 	const [isLoading, setIsLoading] = useState(true);
+	const [location, setLocation] = useState(null);
+	const [errorMsg, setErrorMsg] = useState(null);
+	const [nearMeList, setNearMeList] = useState([]);
 	const [mostPopular, setMostPopular] = useState();
 	const navigation = useNavigation();
 
@@ -38,7 +41,52 @@ const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 
 		// Set the state variable with the updated mostPopular array
 		setMostPopular(updatedMostPopular);
+
+		findNearestLocations();
 	}, []);
+
+	const findNearestLocations = async () => {
+		const currentLocation = await getCurrentLocation();
+		if (!currentLocation) {
+			// Handle current location not available
+			return [];
+		}
+
+		const nearestLocations = locationsList.filter((location) => {
+			const distance = calculateDistance(
+				currentLocation,
+				location.geoLocation
+			);
+			return distance <= 4;
+		});
+
+		nearestLocations.sort((a, b) => {
+			const distanceA = calculateDistance(currentLocation, a.geoLocation);
+			const distanceB = calculateDistance(currentLocation, b.geoLocation);
+			return distanceA - distanceB;
+		});
+
+		setNearMeList(nearestLocations);
+	};
+
+	const getCurrentLocation = async () => {
+		let { status } = await Location.requestForegroundPermissionsAsync();
+		if (status !== 'granted') {
+			// Handle permission not granted
+			return;
+		}
+
+		let { coords } = await Location.getCurrentPositionAsync({});
+		return {
+			latitude: coords.latitude,
+			longitude: coords.longitude,
+		};
+	};
+
+	const calculateDistance = (startLocation, endLocation) => {
+		const distance = getDistance(startLocation, endLocation);
+		return convertDistance(distance, 'mi');
+	};
 
 	return (
 		<SafeAreaView style={[page.whiteBg, { flex: 1 }]}>
@@ -84,9 +132,39 @@ const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 					/>
 				</View>
 
-				<View style={local.section}>
-					<Text style={text.largeTitle}>Near Me</Text>
-				</View>
+				{nearMeList && nearMeList.length > 0 ? (
+					<View>
+						<View style={local.section}>
+							<Text style={text.largeTitle}>Near Me</Text>
+						</View>
+						<FlatList
+							data={nearMeList}
+							keyExtractor={(item) => item.id}
+							style={{ paddingHorizontal: 15 }}
+							horizontal={true}
+							decelerationRate={0}
+							scrollEventThrottle={1}
+							showsHorizontalScrollIndicator={'false'}
+							snapToInterval={300} //your element width
+							snapToAlignment={'center'}
+							ListEmptyComponent={() => (
+								<View>
+									<Text>No results found.</Text>
+								</View>
+							)}
+							renderItem={({ item }) => {
+								return (
+									<View style={{ marginRight: 10 }}>
+										<LocationComponent
+											componentLocation={item}
+											componentSize={'md'}
+										/>
+									</View>
+								);
+							}}
+						/>
+					</View>
+				) : null}
 
 				{districtsList ? (
 					<View>
