@@ -42,10 +42,14 @@ const ListPage = ({ featuresList, districtsList, locationsList, route }) => {
 	};
 
 	const filterList = (list) => {
-		if (filterType === 'district' && filterId) {
+		if (filterType && filterId) {
 			list = list
 				.filter(function (item) {
-					return item.district === filterId;
+					if (filterType === 'district') {
+						return item.district === filterId;
+					} else if (filterType === 'feature') {
+						return item.features.includes(filterId);
+					}
 				})
 				.map(function (item) {
 					return item;

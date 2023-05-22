@@ -12,7 +12,12 @@ export default function FeaturesButton(payload) {
 	return (
 		<TouchableOpacity
 			style={[local.button]}
-			onPress={() => navigation.navigate('ListPage')}
+			onPress={() =>
+				navigation.navigate('ListPage', {
+					filterType: 'feature',
+					id: feature.id,
+				})
+			}
 		>
 			<View style={[local.iconContainer]}>
 				<FontAwesomeIcon
