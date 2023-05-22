@@ -100,7 +100,7 @@ const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 							onPress={() => navigation.navigate('ListPage')}
 							style={{ marginTop: 20 }}
 						>
-							<Text style={button.link}>Top 10</Text>
+							<Text style={button.link}>View All</Text>
 						</TouchableOpacity>
 					</View>
 
@@ -145,7 +145,7 @@ const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 							decelerationRate={0}
 							scrollEventThrottle={1}
 							showsHorizontalScrollIndicator={'false'}
-							snapToInterval={300} //your element width
+							snapToInterval={150} //your element width
 							snapToAlignment={'center'}
 							ListEmptyComponent={() => (
 								<View>
@@ -157,7 +157,7 @@ const LandingPage = ({ featuresList, districtsList, locationsList }) => {
 									<View style={{ marginRight: 10 }}>
 										<LocationComponent
 											componentLocation={item}
-											componentSize={'md'}
+											componentSize={'sm'}
 										/>
 									</View>
 								);

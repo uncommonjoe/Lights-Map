@@ -27,36 +27,41 @@ export default LikeBookmark = ({ likesPayload }) => {
 				<FontAwesomeIcon
 					icon={faThumbsUp}
 					color={'black'}
-					size={18}
+					size={16}
 					style={{ marginLeft: 5 }}
 				/>
 			</TouchableOpacity>
 
 			<TouchableOpacity style={[local.button, local.rightButton]}>
-				<FontAwesomeIcon icon={faBookmark} color={'black'} size={18} />
+				<FontAwesomeIcon icon={faBookmark} color={'black'} size={16} />
 			</TouchableOpacity>
 		</View>
 	);
 };
 
+const borderRadius = 15;
 const local = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: 'row',
 		margin: 15,
 	},
 	button: {
-		padding: 10,
+		paddingVertical: 10,
 		backgroundColor: 'white',
 		flexDirection: 'row',
 		alignItems: 'center',
 		height: 40,
 	},
 	leftButton: {
-		borderTopLeftRadius: 5,
-		borderBottomLeftRadius: 5,
+		paddingLeft: 10,
+		paddingRight: 5,
+		borderTopLeftRadius: borderRadius,
+		borderBottomLeftRadius: borderRadius,
 	},
 	rightButton: {
-		borderTopRightRadius: 5,
-		borderBottomRightRadius: 5,
+		paddingLeft: 5,
+		paddingRight: 10,
+		borderTopRightRadius: borderRadius,
+		borderBottomRightRadius: borderRadius,
 	},
 });

@@ -49,8 +49,6 @@ export default function LocationComponent({
 				flex: 1,
 			},
 			contents: {
-				flexDirection: 'row',
-				justifyContent: 'space-between',
 				width: size === 'md' ? 250 : '100%',
 			},
 			icons: {
