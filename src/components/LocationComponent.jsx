@@ -49,7 +49,7 @@ export default function LocationComponent({
 				flex: 1,
 			},
 			contents: {
-				width: size === 'md' ? 250 : '100%',
+				width: size === 'sm' ? 150 : size === 'md' ? 250 : '100%',
 			},
 			icons: {
 				marginLeft: 5,
@@ -105,36 +105,41 @@ export default function LocationComponent({
 								{location.name}
 							</Text>
 
-							{location.featureIcons.map((icon, index) => {
-								const iconName = icon.iconName;
-								const mappedIcon = iconMap[iconName];
+							{size !== 'sm'
+								? location.featureIcons.map((icon, index) => {
+										const iconName = icon.iconName;
+										const mappedIcon = iconMap[iconName];
 
-								if (!mappedIcon) {
-									console.warn(
-										`Invalid icon name: ${iconName}`
-									);
-									return null;
-								}
+										if (!mappedIcon) {
+											console.warn(
+												`Invalid icon name: ${iconName}`
+											);
+											return null;
+										}
 
-								return (
-									<View
-										key={index}
-										style={{
-											marginRight: 5,
-										}}
-									>
-										<FontAwesomeIcon
-											icon={mappedIcon}
-											color={'white'}
-											size={14}
-											style={local.displayListing.icons}
-										/>
-									</View>
-								);
-							})}
+										return (
+											<View
+												key={index}
+												style={{
+													marginRight: 5,
+												}}
+											>
+												<FontAwesomeIcon
+													icon={mappedIcon}
+													color={'white'}
+													size={14}
+													style={
+														local.displayListing
+															.icons
+													}
+												/>
+											</View>
+										);
+								  })
+								: null}
 						</View>
 
-						{size !== 'md' ? (
+						{size !== 'sm' && size !== 'md' ? (
 							<Text style={local.displayListing.subtitle}>
 								{location.localDistrictName}
 							</Text>
